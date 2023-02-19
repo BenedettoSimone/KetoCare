@@ -115,9 +115,9 @@ and then going to `http://localhost:8001`.
 	4. Select "*Receive a web request*" and write *"email_warning"* in the "*Event Name*" field. Save the event name since it is required to trigger the event. Click *Create trigger*.
 	5. In the applet page click *Then That*, type *"email"* in the search bar, and select *Email*.
 	6. Click *Send me an email* and fill the fields as follow:
-- *Subject*: `[WeatherStation] Attention a device encountered an error!`
+- *Subject*: `[KetoCare] Warning!`
 		
-- *Body*: `A device of WeatherStation generated an error.<br> Device {{Value1}} got an error at {{Value2}} <br> Sent by WeatherStation.`
+- *Body*: `The sensor of patient <b>{{Value1}}</b> reported at <b>{{Value2}}</b> a blood pH value of <b>{{Value3}}</b> .`
 	
 	7. Click *Create action*, *Continue*, and *Finish*.
 
