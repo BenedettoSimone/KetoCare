@@ -6,6 +6,19 @@ This project aims to provide support to doctors to monitor diabetes and prevent 
 
 Diabetes is a chronic disease that requires continuous and accurate monitoring of blood sugar levels. A potentially dangerous complication of diabetes, called ketoacidosis, occurs when the organism begins to produce excess ketones leading to an increase of the acidity level in the blood.
 
+The project is based on an IoT Cloud architecture where each sensor (placed on each patient) collects information about blood pH and sends it to the Cloud where it will be processed through Serverless Computing and stored in a NoSQL database.
+
+The sensors' functionality is inspired by the method described in the paper [Bioresorbable Nanostructured Chemical Sensor for Monitoring of pH Level In Vivo](https://onlinelibrary.wiley.com/doi/pdf/10.1002/advs.202202062). The sensor takes pH measurements from `4.0 to 7.45`.
+
+Each sensor sends a message containing the following information:
+
+- sensor ID;
+- time in format yyyy-mm-dd hh:mm:ss;
+- fiscal code of the patient;
+- blood pH value.
+
+The messages will be sent on two queues according to the pH value. If the value is between 7.35 and 7.45, the sensor will send the message on the "Measurements" queue. If lower, it will send the message (without specifying the sensor ID) on the "Warning" queue. Each message sent on the "Warning" queue trigger a Serverless function that sends an email to the doctor notifying the warning.
+<p align="center"><img src="./images/email.png"/></p>
 
 ## Architecture
 
