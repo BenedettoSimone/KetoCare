@@ -33,7 +33,7 @@ for device in devices:
         queue.send_message(MessageBody=msg_body)
     else:
         # Generate warning pH value
-        blood_pH = round(random.uniform(4.0, 7.35), 2)
+        blood_pH = round(random.uniform(4.0, 7.34), 2)
         warning_queue = sqs.get_queue_by_name(QueueName="Warning")
         warning_msg = '{"fiscal_code": "%s","measure_date": "%s", "measured_value": "%s"}' % (device[1], measure_date, str(blood_pH))
         print(warning_msg)

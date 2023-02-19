@@ -21,6 +21,7 @@ The messages will be sent on two queues according to the pH value. If the value 
 <p align="center"><img src="./images/email.png"/></p>
 
 ## Architecture
+<p align="center"><img src="./images/architecture.jpg"/></p>
 
 - The Cloud environment is simulated using [LocalStack](https://localstack.cloud/) to replicate the [AWS services](https://aws.amazon.com/).
 - The IoT devices are simulated using a Python function exploiting [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html) to send messages on the queues.
