@@ -33,13 +33,15 @@ The messages will be sent on two queues according to the pH value. If the value 
 - The DynamoDB GUI is available using [dynamodb-admin](https://github.com/aaronshaf/dynamodb-admin).
 
 
-## Installation and usage
-### Prerequisites
+
+## Prerequisites
 1. [Docker](https://docs.docker.com/get-docker/);
 2. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html);
 3. [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html).
-4. nodejs
-### Setting up the environment
+4. (Optional) nodejs for database visualization.
+
+
+## Setting up the environment
 **1. Clone the repository**
 
 ```
