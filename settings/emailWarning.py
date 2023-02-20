@@ -5,6 +5,8 @@ import json
 def lambda_handler(event, context):
     key = "<insert-your-IFTT-key-here>"
     url = "https://maker.ifttt.com/trigger/email_warning/with/key/" + key
+
+    # Get set of messages from SQS queue
     for record in event['Records']:
         payload = record['body']
         payload = json.loads(str(payload))

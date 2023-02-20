@@ -17,7 +17,7 @@ Each sensor sends a message containing the following information:
 - fiscal code of the patient;
 - blood pH value.
 
-The messages are sent on two queues according to the pH value. On the "Measurements" queue all measurements taken are sent, while on the "Warning" queue are sent messages (without specifying the sensor ID) for pH values less than 7.35. Each message sent on the "Warning" queue triggers a Serverless function that sends an e-mail to the doctor notifying him of the warning.
+The messages are sent on two queues according to the pH value. On the "Measurements" queue all measurements taken are sent, while on the "Warning" queue are sent messages (without specifying the sensor ID) for pH values less than 7.35. Each message sent on the "Warning" queue triggers a Serverless function that sends an email to the doctor notifying him of the warning.
 <p align="center"><img src="./images/email.png"/></p>
 
 Since 7 measurements per day will be taken, at the end of the day a time triggered Serverless function compute the average of the values measured during the day using the messages stored on the "Measurements" queue. The function filter the messages on the queue by device id and by date of measurement, take the average and save the result to a NoSQL database. 
