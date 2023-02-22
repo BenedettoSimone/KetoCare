@@ -22,11 +22,12 @@ The messages are sent on two queues according to the pH value. On the "Measureme
 
 Since 7 measurements per day will be taken, at the end of the day a time triggered Serverless function compute the average of the values measured during the day using the messages stored on the "Measurements" queue. The function filter the messages on the queue by device id and by date of measurement, take the average and save the result to a NoSQL database. 
 The database contains the history of all computed average values and each item stored in the database contains the following information:
-- sensor ID;
-- time in format yyyy-mm-dd hh:mm:ss;
 - fiscal code of the patient;
+- time in format yyyy-mm-dd hh:mm:ss;
 - blood pH average;
+- sensor ID;
 - blood pH values.
+<p align="center"><img src="./images/db_structure.png"/></p>
 
 ## Architecture
 <p align="center"><img src="./images/architecture.jpg"/></p>
@@ -87,10 +88,12 @@ aws sqs list-queues --endpoint-url=http://localhost:4566
 cd KetoCare
 ```
 ```
-python3 settings/createTable.py
+python3 settings/createMeasurementsTable.py
+python3 settings/createAveragesTable.py
+python3 settings/createPatientsTable.py
 ```
 
-2) Check that the tables are been correctly created
+2) Check that the tables have been correctly created
 
 ```
 aws dynamodb list-tables --endpoint-url=http://localhost:4566
@@ -99,13 +102,15 @@ aws dynamodb list-tables --endpoint-url=http://localhost:4566
 3) Populate the tables with some data
 	
 ```
+python3 settings/loadMeasurementsData.py
+python3 settings/loadData.py
 python3 settings/loadData.py
 ```
 	
 4) Check that the table are been correctly populated using the AWS CLI (*Press q to exit*)
 
 ```
-aws dynamodb scan --table-name Hospital --endpoint-url=http://localhost:4566
+aws dynamodb scan --table-name Measurements --endpoint-url=http://localhost:4566
 ```
 	
 or using the [dynamodb-admin] GUI with the command
@@ -159,3 +164,4 @@ aws lambda create-event-source-mapping --function-name emailWarning --batch-size
 ```
 aws sqs send-message --queue-url http://localhost:4566/000000000000/Warning --message-body '{"fiscal_code": "SMNDBT00B07I197T","measure_date": "2011-223-232", "measured_value": "7.5 (Medium)"}' --endpoint-url=http://localhost:4566
 ```
+

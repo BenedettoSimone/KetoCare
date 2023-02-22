@@ -5,7 +5,7 @@ import statistics
 
 dynamodb = boto3.resource('dynamodb', endpoint_url="http://localhost:4566")
 
-table = dynamodb.Table('Measurements')
+table = dynamodb.Table('Averages')
 
 # Device = (device_Id, fiscal_code)
 devices = [('01', 'CGLSZV61B26A832H'),
