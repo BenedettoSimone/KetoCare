@@ -188,7 +188,7 @@ aws lambda create-function --function-name saveMeasurements --zip-file fileb://s
 aws lambda create-event-source-mapping --function-name saveMeasurements --batch-size 5 --maximum-batching-window-in-seconds 60 --event-source-arn arn:aws:sqs:us-east-2:000000000000:Measurements --endpoint-url=http://localhost:4566
 ```
 
-3) Test the mapping sending a message on the error queue and check that an email is sent
+3) Test the mapping sending a message on the error queue and check that the item is stored
 
 ```
 aws sqs send-message --queue-url http://localhost:4566/000000000000/Measurements --message-body '{"device_id": "01", "fiscal_code": "CGLSZV61B26A832H","measure_date": "2023-02-23 11:27:36", "measured_value": "7.5"}' --endpoint-url=http://localhost:4566
