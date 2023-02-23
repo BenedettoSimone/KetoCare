@@ -82,15 +82,16 @@ aws sqs list-queues --endpoint-url=http://localhost:4566
 
 **4. Create the DynamoDB table and populate it**
 	
-1) Use the python code to create the DynamoDB table
+1) Use the python code to create the DynamoDB tables
 	
 ```shell
 cd KetoCare
 ```
 ```
 python3 settings/createMeasurementsTable.py
+```
+```
 python3 settings/createAveragesTable.py
-python3 settings/createPatientsTable.py
 ```
 
 2) Check that the tables have been correctly created
@@ -99,11 +100,9 @@ python3 settings/createPatientsTable.py
 aws dynamodb list-tables --endpoint-url=http://localhost:4566
 ```
 	
-3) Populate the tables with some data
+3) Populate the tables with some data. In particular, will be loaded the measurements and the average of the previous day's measurements of the current day
 	
 ```
-python3 settings/loadMeasurementsData.py
-python3 settings/loadData.py
 python3 settings/loadData.py
 ```
 	
