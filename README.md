@@ -103,7 +103,9 @@ python3 settings/createMeasurementsTable.py
 ```
 python3 settings/createAveragesTable.py
 ```
-
+```
+python3 settings/createPatientsTable.py
+```
 2) Check that the tables have been correctly created
 
 ```
@@ -114,6 +116,9 @@ aws dynamodb list-tables --endpoint-url=http://localhost:4566
 	
 ```
 python3 settings/loadData.py
+```
+```
+python3 settings/loadPatients.py
 ```
 	
 4) Check that the table are been correctly populated using the AWS CLI (*Press q to exit*)
