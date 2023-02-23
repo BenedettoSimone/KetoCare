@@ -161,6 +161,35 @@ aws lambda create-event-source-mapping --function-name emailWarning --batch-size
 5) Test the mapping sending a message on the error queue and check that an email is sent
 
 ```
-aws sqs send-message --queue-url http://localhost:4566/000000000000/Warning --message-body '{"fiscal_code": "SMNDBT00B07I197T","measure_date": "2011-223-232", "measured_value": "7.5 (Medium)"}' --endpoint-url=http://localhost:4566
+aws sqs send-message --queue-url http://localhost:4566/000000000000/Warning --message-body '{"fiscal_code": "SMNDBT00B07I197T","measure_date": "2011-223-232", "measured_value": "7.5"}' --endpoint-url=http://localhost:4566
 ```
 
+
+**6. Set up the Lambda function triggered by SQS messages that store the measurements.
+
+1) Zip the Python file and create the Lambda function
+```
+aws iam create-role --role-name lambdarole --assume-role-policy-document file://settings/role_policy.json --query 'Role.Arn' --endpoint-url=http://localhost:4566
+```
+```
+aws iam put-role-policy --role-name lambdarole --policy-name lambdapolicy --policy-document file://settings/policy.json --endpoint-url=http://localhost:4566
+```
+```
+zip saveMeasurements.zip settings/saveMeasurements.py
+```
+
+```
+aws lambda create-function --function-name saveMeasurements --zip-file fileb://saveMeasurements.zip --handler settings/saveMeasurements.lambda_handler --runtime python3.6 --role arn:aws:iam::000000000000:role/lambdarole --endpoint-url=http://localhost:4566
+```
+
+2) Create the event source mapping between the function and the queue
+
+```
+aws lambda create-event-source-mapping --function-name saveMeasurements --batch-size 5 --maximum-batching-window-in-seconds 60 --event-source-arn arn:aws:sqs:us-east-2:000000000000:Measurements --endpoint-url=http://localhost:4566
+```
+
+3) Test the mapping sending a message on the error queue and check that an email is sent
+
+```
+aws sqs send-message --queue-url http://localhost:4566/000000000000/Measurements --message-body '{"device_id": "01", "fiscal_code": "CGLSZV61B26A832H","measure_date": "2023-02-23 11:27:36", "measured_value": "7.5"}' --endpoint-url=http://localhost:4566
+```
