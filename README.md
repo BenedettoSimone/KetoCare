@@ -17,17 +17,27 @@ Each sensor sends a message containing the following information:
 - fiscal code of the patient;
 - blood pH value.
 
-The messages are sent on two queues according to the pH value. On the "Measurements" queue all measurements taken are sent, while on the "Warning" queue are sent messages (without specifying the sensor ID) for pH values less than 7.35. Each message sent on the "Warning" queue triggers a Serverless function that sends an email to the doctor notifying him of the warning.
-<p align="center"><img src="./images/email.png"/></p>
+Seven measurements are taken per day and the messages are sent on two queues according to the pH value. On the "Measurements" queue all measurements taken are sent, while on the "Warning" queue are sent messages (without specifying the sensor ID) for pH values less than 7.35. 
 
-Since 7 measurements per day will be taken, at the end of the day a time triggered Serverless function compute the average of the values measured during the day using the messages stored on the "Measurements" queue. The function filter the messages on the queue by device id and by date of measurement, take the average and save the result to a NoSQL database. 
-The database contains the history of all computed average values and each item stored in the database contains the following information:
+Each message sent on the "Measurements" queue triggers a Serverless function that is responsible to insert the measurement into a NoSQL database. The "Measurements" table contain items with the following information:
+- fiscal code of the patient;
+- time in format yyyy-mm-dd hh:mm:ss;
+- sensor ID;
+- blood pH value.
+<p align="center"><img src="./images/measurements_table.png"/></p>
+
+
+At the end of the day, a time triggered Serverless function computes the average of the 7 daily measurements for each patient and saves the result in the "Averages" table. Each item in the table contains the following information:
 - fiscal code of the patient;
 - time in format yyyy-mm-dd hh:mm:ss;
 - blood pH average;
 - sensor ID;
 - blood pH values.
-<p align="center"><img src="./images/db_structure.png"/></p>
+<p align="center"><img src="./images/averages_table.png"/></p>
+
+Each message sent on the "Warning" queue triggers a Serverless function that sends an email to the doctor notifying him of the warning.
+<p align="center"><img src="./images/email.png"/></p>
+
 
 ## Architecture
 <p align="center"><img src="./images/architecture.jpg"/></p>
@@ -188,8 +198,8 @@ aws lambda create-function --function-name saveMeasurements --zip-file fileb://s
 aws lambda create-event-source-mapping --function-name saveMeasurements --batch-size 5 --maximum-batching-window-in-seconds 60 --event-source-arn arn:aws:sqs:us-east-2:000000000000:Measurements --endpoint-url=http://localhost:4566
 ```
 
-3) Test the mapping sending a message on the error queue and check that the item is stored
 
-```
-aws sqs send-message --queue-url http://localhost:4566/000000000000/Measurements --message-body '{"device_id": "01", "fiscal_code": "CGLSZV61B26A832H","measure_date": "2023-02-23 11:27:36", "measured_value": "7.5"}' --endpoint-url=http://localhost:4566
-```
+
+RUN SENSOR PY check the data in db
+
+CREATE LAMBDA FUNCTION AND INVOKE MANUALLY o DAILY
