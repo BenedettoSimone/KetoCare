@@ -1,3 +1,5 @@
+import time
+
 import boto3
 import datetime
 import random
@@ -13,6 +15,7 @@ devices = [('01', 'CGLSZV61B26A832H'),
 
 # Seven measurements per day
 for i in range(1,8):
+    time.sleep(1)
     print("\n========== MEASUREMENT " + str(i) + "==========")
     for device in devices:
 
