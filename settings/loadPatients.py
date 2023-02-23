@@ -3,7 +3,7 @@ import boto3
 dynamodb = boto3.resource('dynamodb', endpoint_url="http://localhost:4566")
 
 # Load Data
-averages_table = dynamodb.Table('Patients')
+patients_table = dynamodb.Table('Patients')
 
 # fiscal_code, name, surname, birthdate, diabet type (1 or 2)
 patients = [('CGLSZV61B26A832H', 'Mario', 'Rossi', '07/02/2000', '1'),
@@ -21,6 +21,6 @@ for patient in patients:
         'birthdate':  patient[3],
         'diabet_type':  patient[4]
     }
-    averages_table.put_item(Item=item)
+    patients_table.put_item(Item=item)
 
     print("Stored item", item)
