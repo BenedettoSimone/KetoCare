@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins:400,600,700' rel='stylesheet'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>KetoCare</title>
+</head>
+<body>
+<div id="body-container">
+
+    <div id="left-content">
+        <!--LOGO-->
+        <div id="logo">
+            <img src="./assets/img/logo.png">
+        </div>
+        <div id="list-container">
+            <!-- PATIENT LIST -->
+            <h1>Patient list</h1>
+
+            <!-- SEARCH BAR -->
+            <div class="search-bar">
+                <div class="icon">
+                    <i class='bx bx-barcode-reader'></i>
+                </div>
+
+                <input type="text" placeholder="Fiscal code ...">
+
+                <!--<button class="button-search">
+                    <a href="#">Search</a>
+                </button>-->
+                <div class="clear-btn hide">
+                    <i class="bx bx-x"></i>
+                </div>
+            </div>
+            <!-- CARD CONTAINER -->
+            <div id="cards-container"></div>
+        </div>
+
+    </div>
+
+    <div id="right-content">
+        <div id="bg-right">
+            <div id="navbar">
+                <ul>
+                    <li><a><img src="assets/img/doctor_user.jpg"><span>Dott. Mario Rossi</span></a></li>
+                </ul>
+            </div>
+
+            <div class="container">
+                <div class="col-a">
+                    <!--1A-->
+                    <div class="cell-1">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">pH Average <span>| Yesterday</span></h4>
+                                <div class="sub-content">
+                                    <div class="icon">
+                                        <img src="assets/img/blood_2.png">
+                                    </div>
+                                    <div class="content">
+                                        <h3 class="ph_average"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--2A-->
+                    <div class="cell-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">pH Average <span></span></h4>
+                                <div class="sub-content">
+                                    <div class="icon">
+                                        <img src="assets/img/blood_1.png">
+                                    </div>
+                                    <div class="content">
+                                        <h3 class="ph_average"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--3A--> <!--LINE CHART-->
+                    <div class="cell-3">
+                        <div id="chart-container">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-b">
+                    <div class="cell-5">
+                        <div id="patient-info">
+                            <img src="./assets/img/patient_2.jpg">
+                            <h2>NAME SURNAME</h2>
+                            <h4>FISCAL CODE</h4>
+                            <div class="info">
+                                <div class="card-info" id="birthday">
+                                    <div class="icon">
+                                        <i class='bx bx-calendar'></i>
+                                    </div>
+                                    <span>BIRTHDATE</span>
+                                </div>
+                                <div class="card-info" id="diabet_type">
+                                    <div class="icon">
+                                        <i class='bx bx-radio-circle'></i>
+                                    </div>
+                                    <span>DIABET TYPE</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/script.js"></script>
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+
+<script>
+    const ctx = document.getElementById('chart-container');
+    const chart = new ApexCharts(ctx, {
+        series: [{
+            name: '',
+            data: [],
+        }, {
+            name: '',
+            data: []
+        }],
+        chart: {
+            height: 350,
+            type: 'area',
+            toolbar: {
+                show: false
+            },
+        },
+        markers: {
+            size: 4
+        },
+        colors: ['#3A9FFC', '#2DBFC3'],
+        fill: {
+            type: "gradient",
+            gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.3,
+                opacityTo: 0.4,
+                stops: [0, 90, 100]
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth',
+            width: 2
+        },
+        xaxis: {
+            title: {
+                text: 'Measurements',
+                offsetY: 90,
+            },
+            type: 'number',
+            categories: ["01", "02", "03", "04", "05", "06", "07"]
+        },
+        legend: {
+            position: 'top'
+        },
+        yaxis: {
+            title: {
+                text: 'pH Values'
+            }/*,
+                    min: 4.0,
+                    max: 7.45*/
+        }
+    });
+
+    chart.render();
+</script>
+
+</body>
+</html>
