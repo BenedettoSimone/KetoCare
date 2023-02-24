@@ -69,7 +69,7 @@ function create_cards() {
         if (index === 0) {
             card.classList.add("active");
             displayPatientInfo(card.id);
-            get_measurements(card.id)
+            get_measurements(card.id, "")
         }
     });
 
@@ -89,7 +89,7 @@ function create_cards() {
             displayPatientInfo(card.id);
 
             //set average and measurements data
-            get_measurements(card.id)
+            get_measurements(card.id, "")
         });
     });
 }
@@ -147,36 +147,60 @@ searchInput.addEventListener("input", () => {
 /* ================== MEASUREMENTS SECTION ================== */
 
 /**
- * Function to fetch measurements data about a patient. The function get measurement of a date and previous date.
+ * Function to fetch average data about a patient. The function get average of a date and previous date.
  * @param fiscal_code: patient fiscal code;
  */
 
-function get_measurements(fiscal_code) {
+function get_measurements(fiscal_code, requested_date) {
 
     // compute current date and previous date
-    const dates = getCurrentAndPreviousDate();
+    const dates = getCurrentAndPreviousDate(requested_date);
 
     // create an array to store the fetched data
-    const measurements = [];
+    const averages = [];
 
     // fetch data for previous date
     fetchData(fiscal_code, dates.previousDate, (data) => {
-        measurements.push(data[0]);
+        averages.push(data[0]);
 
         // fetch data for current date
-        fetchData(fiscal_code, dates.previousDate, (data) => {
-            measurements.push(data[0]);
-            console.log(measurements);
+        fetchData(fiscal_code, dates.currentDate, (data) => {
+            averages.push(data[0]);
+            console.log(averages);
 
             //LEFT CARD - Previous
-            document.querySelector('.cell-1 .card-title span').innerHTML = '| ' + measurements[0].timestamp;
-            document.querySelector('.cell-1 .ph_average').innerHTML = measurements[0].average_value;
+            document.querySelector('.cell-1 .card-title span').innerHTML = '| ' + dates.previousDate;
+            // check if the average exist
+            if (averages[0]) {
+                document.querySelector('.cell-1 .ph_average').innerHTML = averages[0].average_value;
+            } else {
+                document.querySelector('.cell-1 .ph_average').innerHTML = 'N/A';
+            }
+
 
             //RIGHT CARD - Current
-            document.querySelector('.cell-2 .card-title span').innerHTML = '| ' + measurements[1].timestamp;
-            document.querySelector('.cell-2 .ph_average').innerHTML = measurements[1].average_value;
+            document.querySelector('.cell-2 .card-title span').innerHTML = '| ' + dates.currentDate;
+            // check if the average exist
+            if (averages[1]) {
+                document.querySelector('.cell-2 .ph_average').innerHTML = averages[1].average_value;
+            } else {
+                document.querySelector('.cell-2 .ph_average').innerHTML = 'N/A';
+            }
 
-            updateChart(dates.previousDate, measurements[0].values, dates.currentDate, measurements[1].values);
+
+            let values_previous = '[0,0,0,0,0,0,0]';
+            let values_current = '[5.7,7.6,7.6,5.5,0,0,0]';
+            if (averages[0]){
+                values_previous = averages[0].values;
+            }
+
+            if (averages[1]){
+                values_current = averages[1].values;
+            }
+
+           updateChart(dates.previousDate, values_previous, dates.currentDate, values_current);
+
+
 
         });
     });
@@ -195,7 +219,7 @@ function fetchData(fiscal_code, date, callback) {
         date: date
     };
 
-    fetch('http://localhost:5000/measurements', {
+    fetch('http://localhost:5000/average', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -220,14 +244,22 @@ function fetchData(fiscal_code, date, callback) {
 /**
  * Function to compute current date and previous date.
  */
-function getCurrentAndPreviousDate() {
-    const today = new Date();
-    const previousDate = new Date(today);
-    previousDate.setDate(today.getDate() - 1);
-    const todayFormatted = today.toISOString().split('T')[0];
-    const previousDateFormatted = previousDate.toISOString().split('T')[0];
+function getCurrentAndPreviousDate(requested_date) {
+    const dates = {}
+    if (requested_date) {
+        const date = new Date(requested_date);
+        const previousDate = new Date(date);
+        previousDate.setDate(date.getDate() - 1);
+        const todayFormatted = date.toISOString().split('T')[0];
+        const previousDateFormatted = previousDate.toISOString().split('T')[0];
+        dates.currentDate = todayFormatted;
+        dates.previousDate = previousDateFormatted;
 
-    return {currentDate: todayFormatted, previousDate: previousDateFormatted};
+    } else {
+        dates.currentDate = "Today";
+        dates.previousDate = "Yesterday";
+    }
+    return dates;
 }
 
 /**
@@ -237,17 +269,14 @@ function getCurrentAndPreviousDate() {
  * @param currentDate: current date;
  * @param currentData: series data of current date;
  */
-function updateChart(previousDate, previousData, currentDate, currentData){
-
-    console.log(typeof previousDate)
-    console.log(typeof previousData)
+function updateChart(previousDate, previousData, currentDate, currentData) {
 
     chart.updateSeries([{
-      name: previousDate,
-      data: JSON.parse(previousData)
+        name: previousDate,
+        data: JSON.parse(previousData)
     }, {
-      name: currentDate,
-      data: JSON.parse(currentData)
+        name: currentDate,
+        data: JSON.parse(currentData)
     }]);
 
 }

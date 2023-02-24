@@ -34,9 +34,9 @@ def get_all_patients():
     return res
 
 
-@app.route('/measurements', methods=['POST'])
+@app.route('/average', methods=['POST'])
 @cross_origin()
-def get_measurements():
+def get_average():
 
     data = request.get_json()
     fiscal_code = data.get('fiscal_code')
