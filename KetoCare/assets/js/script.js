@@ -46,7 +46,7 @@ function create_cards() {
         leftCard.classList.add("left-card");
 
         const img = document.createElement("img");
-        img.src = "./assets/img/patient_1.jpg";
+        img.src = cardData.image_url;
         leftCard.appendChild(img);
 
         const rightCard = document.createElement("div");
@@ -303,7 +303,7 @@ function displayPatientInfo(fiscalCode) {
     const birthdayCard = patientInfoDiv.querySelector("#birthday");
     const diabetTypeCard = patientInfoDiv.querySelector("#diabet_type");
 
-    img.src = "./assets/img/patient_1.jpg";
+    img.src = patient.image_url;
     h2.textContent = patient.name + " " + patient.surname;
     h4.textContent = patient.fiscal_code;
 

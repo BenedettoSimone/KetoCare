@@ -1,4 +1,5 @@
-from boto3.dynamodb.conditions import Key, Attr
+import logging
+from botocore.exceptions import ClientError
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS, cross_origin
 import boto3
@@ -6,6 +7,7 @@ import boto3
 app = Flask(__name__)
 CORS(app)
 dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:4566')
+s3_client = boto3.client('s3', endpoint_url="http://localhost:4566")
 
 
 @app.route('/patients', methods=['GET'])
@@ -14,6 +16,18 @@ def get_all_patients():
     patients_table = dynamodb.Table('Patients')
     response = patients_table.scan()
     items = response['Items']
+
+    # update items with URL for image file
+    for item in items:
+        try:
+            # generate URL for image file
+            url = s3_client.generate_presigned_url('get_object',
+                                                   Params={'Bucket': 'patientsimages', 'Key': item['image_file']},
+                                                   ExpiresIn=3600)
+            item['image_url'] = url
+        except ClientError as e:
+            logging.error(e)
+
     print(items)
 
     res = make_response(jsonify(items), 200)
