@@ -23,6 +23,7 @@ body,html {
     background-color: white;
 }
 
+
 /* ==== BASE STRUCTURE ====*/
 #body-container{
     height: 100vh;
@@ -233,10 +234,6 @@ body,html {
     color: var(--primary-color);
 }
 
-
-
-
-
 /* ==== END LEFT CONTENT ==== */
 
 
@@ -250,6 +247,7 @@ body,html {
     padding-top: 20px;
     padding-left: 20px;
     padding-right: 20px;
+    overflow-y: scroll;
 }
 
 
@@ -308,22 +306,32 @@ body,html {
     /*background-color: #eee;*/
 }
 
+#calendar{
+    grid-row: 1 / span 1; /* first row */
+    grid-column: 1 / span 2; /* two column */
+    /*background-color: #ccc;*/
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
 .cell-1 {
-    grid-row: 1 / span 1; /* one row */
+    grid-row: 2 / span 1; /* second row */
     grid-column: 1 / span 1; /* one column */
     /*background-color: #ccc;*/
     padding-right: 10px;
 }
 
 .cell-2 {
-    grid-row: 1 / span 1; /* one row */
+    grid-row: 2 / span 1; /* second row */
     grid-column: 2 / span 1; /* one column */
     /*background-color: #bbb;*/
     padding-left: 10px;
 }
 
 .cell-3 {
-    grid-row: 2 / span 1; /* one row */
+    grid-row: 3 / span 1; /* third row */
     grid-column: 1 / span 2; /* two column */
     /*background-color: #aaa;*/
      padding-top: 20px;
@@ -334,6 +342,71 @@ body,html {
      /*background-color: #888;*/
 
 }
+
+#calendar h1{
+    color: var(--primary-text);
+}
+
+
+/* Calendar picker */
+#calendar .calendar-picker{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: var(--background-content);
+    border-radius: 14px;
+    height: 50px;
+    border: 0.1rem solid var(--secondary-text);
+    column-gap: 12px;
+    padding-left: 10px;
+}
+
+
+#calendar .calendar-picker .icon{
+    color: var(--secondary-text);
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+}
+
+#calendar .calendar-picker input {
+    width: 119px;
+    background: var(--background-content);
+    display: flex;
+    outline: none;
+    border: none;
+    color: var(--primary-text);
+    font-size: 14px;
+}
+
+#calendar .calendar-picker input[type="text"]{
+    color: var(--primary-text);
+}
+
+.flatpickr-months .flatpickr-prev-month:hover svg, .flatpickr-months .flatpickr-next-month:hover svg {
+fill: var(--primary-color) !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months{
+    appearance: none !important;
+    /*
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 1em 0 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  cursor: inherit !important;
+  line-height: inherit !important;
+
+     */
+}
+
+.numInputWrapper .arrowUp,.numInputWrapper .arrowDown {
+    display:none !important;
+}
+
 
 
 /* COL-A FIRST ROW*/
