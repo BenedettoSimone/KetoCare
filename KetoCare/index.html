@@ -53,7 +53,11 @@
             <div id="navbar">
                 <ul>
                     <li><a><img src="assets/img/doctor_user.jpg"><span>Dott. Mario Rossi</span></a></li>
+                    <li>
+                        <button id="toggle-left-content">Mostra/Nascondi</button>
+                    </li>
                 </ul>
+
             </div>
 
             <div class="container">
@@ -62,7 +66,7 @@
                         <h1>Overview</h1>
                         <div class="calendar-picker">
                             <div class="icon">
-                               <i class='bx bx-calendar'></i>
+                                <i class='bx bx-calendar'></i>
                             </div>
                             <input type="text" id="date" placeholder="Select date ...">
                         </div>
@@ -212,6 +216,21 @@
 
             // Set average and measurements data
             get_measurements(activeCard.id, dateStr)
+        }
+    });
+</script>
+
+<script>
+    var content = document.querySelector('#left-content');
+    var toggleButton = document.querySelector('#toggle-left-content');
+
+    toggleButton.addEventListener('click', function () {
+        if (content.classList.contains('show-left-content')) {
+            content.classList.remove('show-left-content');
+            content.classList.add('hide-left-content');
+        } else {
+            content.classList.remove('hide-left-content');
+            content.classList.add('show-left-content');
         }
     });
 </script>
