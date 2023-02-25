@@ -23,6 +23,8 @@
         <div id="logo">
             <img src="./assets/img/logo.png">
         </div>
+        <button id="button-close"><i class='bx bx-x' ></i></button>
+
         <div id="list-container">
             <!-- PATIENT LIST -->
             <h1>Patient list</h1>
@@ -51,11 +53,10 @@
     <div id="right-content">
         <div id="bg-right">
             <div id="navbar">
-                <ul>
-                    <li><a><img src="assets/img/doctor_user.jpg"><span>Dott. Mario Rossi</span></a></li>
-                    <li>
-                        <button id="toggle-left-content">Mostra/Nascondi</button>
+                <ul> <li>
+                        <button id="toggle-left-content"><i class='bx bx-menu-alt-left'></i></button>
                     </li>
+                    <li><a><img src="assets/img/doctor_user.jpg"><span>Dott. Mario Rossi</span></a></li>
                 </ul>
 
             </div>
@@ -222,9 +223,10 @@
 
 <script>
     var content = document.querySelector('#left-content');
-    var toggleButton = document.querySelector('#toggle-left-content');
+    var openButton = document.querySelector('#toggle-left-content');
+    var closeButton = document.querySelector('#button-close');
 
-    toggleButton.addEventListener('click', function () {
+    openButton.addEventListener('click', function () {
         if (content.classList.contains('show-left-content')) {
             content.classList.remove('show-left-content');
             content.classList.add('hide-left-content');
@@ -232,6 +234,12 @@
             content.classList.remove('hide-left-content');
             content.classList.add('show-left-content');
         }
+    });
+
+
+    closeButton.addEventListener('click', function () {
+            content.classList.remove('show-left-content');
+            content.classList.add('hide-left-content');
     });
 </script>
 </body>

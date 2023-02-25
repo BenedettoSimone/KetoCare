@@ -53,6 +53,7 @@ body, html {
     display: flex;
     flex-direction: column;
     padding: 0 30px 0 30px;
+    position: relative;
 }
 
 #left-content #logo {
@@ -65,6 +66,27 @@ body, html {
 #left-content #logo img {
     height: 43px;
 }
+
+
+#button-close{
+height: 50px;
+    width: 50px;
+    background: var(--primary-color);
+    border: 0;
+    border-radius:15px;
+    position: absolute;
+    right: 10px;
+    top: 23px;
+    cursor: pointer;
+    display: none;
+}
+
+#button-close i{
+font-size: 20px;
+    color: white;
+
+}
+
 
 /* LIST CONTAINER */
 #left-content #list-container {
@@ -262,7 +284,32 @@ body, html {
     flex-direction: row;
     align-items: center;
     justify-content: end;
+    padding-left: 12px;
     padding-right: 20px;
+
+}
+
+
+#right-content #bg-right #navbar ul{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+}
+
+#toggle-left-content{
+height: 50px;
+    width: 50px;
+    background: var(--primary-color);
+    border: 0;
+    border-radius:15px;
+    display: none;
+    cursor: pointer;
+}
+
+#toggle-left-content i{
+font-size: 20px;
+    color: white;
 
 }
 
@@ -586,31 +633,39 @@ body, html {
 
 /* Hide left content and create sidebar menu */
 @media screen and (max-width: 857px) {
-    #left-content {
-        display: none;
-        height: 100vh;
-        width: 376px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 2;
-        background-color: white;
-        transition: transform 0.5s ease-in-out;
-    }
+ #left-content {
+    display: none;
+    height: 100vh;
+    width: 376px;
+    position: absolute;
+    top: 0;
+    left: -376px;
+    z-index: 2;
+    background-color: white;
+    transition: transform 0.3s ease-in-out;
+    will-change: transform;
+     box-shadow: var(--box-shadow);
+}
 
-    #left-content.show-left-content {
-        display: block;
-        transform: translateX(0);
-    }
+#left-content.show-left-content {
+    display: block;
+    transform: translateX(0);
+    left: 0;
+}
 
-    #left-content.hide-left-content {
-        display: none;
-        transform: translateX(-100%);
-    }
+#left-content.hide-left-content {
+    display: none;
+    transform: translateX(-100%);
+    left: -376px;
+}
 
     #right-content {
         width: 100%;
         padding-left: 20px;
+    }
+
+    #toggle-left-content, #button-close{
+        display: block;
     }
 }
 
