@@ -180,7 +180,7 @@ function get_measurements(fiscal_code, requested_date) {
 
 
             //RIGHT CARD - Current
-            document.querySelector('.cell-2 .card-title span').innerHTML = '| ' + dates.currentDate;
+            document.querySelector('.cell-2 .card-title span').innerHTML = '| '+ dates.currentDate;
             // check if the average exist
             if (averages[1]) {
                 document.querySelector('.cell-2 .ph_average').innerHTML = averages[1].average_value;
