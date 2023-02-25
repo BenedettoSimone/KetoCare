@@ -30,7 +30,6 @@ fetch('http://localhost:5000/patients', {
 /**
  * Function to create card. This function, for each item received, create a card
  * to show name, surname and fiscal code.
- * @param cardsData: array of items;
  */
 function create_cards() {
     const cardsContainer = document.getElementById("cards-container");
@@ -89,6 +88,9 @@ function create_cards() {
 
             //set average and measurements data
             get_measurements(card.id, "")
+
+            const input = document.getElementById('date');
+            input.value = '';
         });
     });
 }
@@ -148,6 +150,7 @@ searchInput.addEventListener("input", () => {
 /**
  * Function to fetch average data about a patient. The function get average of a date and previous date.
  * @param fiscal_code: patient fiscal code;
+ * @param requested_date
  */
 
 function get_measurements(fiscal_code, requested_date) {
@@ -324,6 +327,7 @@ function updateChart(previousDate, previousData, currentDate, currentData) {
     }]);
 
 }
+
 
 
 /* ================== END MEASUREMENTS SECTION ================== */

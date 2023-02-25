@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Poppins:400,600,700' rel='stylesheet'>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>KetoCare</title>
@@ -50,6 +51,9 @@
                 <ul>
                     <li><a><img src="assets/img/doctor_user.jpg"><span>Dott. Mario Rossi</span></a></li>
                 </ul>
+                <label for="date">Seleziona una data:</label>
+                <input type="text" id="date">
+
             </div>
 
             <div class="container">
@@ -122,7 +126,9 @@
 </div>
 
 <script src="assets/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+
 
 <script>
     const ctx = document.getElementById('chart-container');
@@ -184,5 +190,20 @@
     chart.render();
 </script>
 
+<script>
+    const input = document.getElementById('date');
+    flatpickr(input, {
+        dateFormat: 'Y-m-d',
+        maxDate: 'today',
+        onChange: function (selectedDates, dateStr, instance) {
+
+            // This function will be executed when the date is changed
+            const activeCard = document.querySelector(".card.active");
+
+            // Set average and measurements data
+            get_measurements(activeCard.id, dateStr)
+        }
+    });
+</script>
 </body>
 </html>
