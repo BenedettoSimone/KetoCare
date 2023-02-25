@@ -19,7 +19,6 @@ fetch('http://localhost:5000/patients', {
         return response.json();
     })
     .then(data => {
-        console.log(data);
         cardsData = data;
         create_cards()
     })
@@ -160,13 +159,12 @@ function get_measurements(fiscal_code, requested_date) {
     const averages = [];
 
     // fetch data for previous date
-    fetchData(fiscal_code, dates.previousDate, (data) => {
+    fetchAverage(fiscal_code, dates.previousDate, (data) => {
         averages.push(data[0]);
 
         // fetch data for current date
-        fetchData(fiscal_code, dates.currentDate, (data) => {
+        fetchAverage(fiscal_code, dates.currentDate, (data) => {
             averages.push(data[0]);
-            console.log(averages);
 
             //LEFT CARD - Previous
             document.querySelector('.cell-1 .card-title span').innerHTML = '| ' + dates.previousDate;
@@ -186,34 +184,46 @@ function get_measurements(fiscal_code, requested_date) {
             } else {
                 document.querySelector('.cell-2 .ph_average').innerHTML = 'N/A';
             }
+        });
+    });
 
 
-            let values_previous = '[0,0,0,0,0,0,0]';
-            let values_current = '[5.7,7.6,7.6,5.5,0,0,0]';
-            if (averages[0]){
-                values_previous = averages[0].values;
+    const measurements = [];
+    fetchMeasurements(fiscal_code, dates.previousDate, (data) => {
+        measurements.push(data);
+
+        fetchMeasurements(fiscal_code, dates.currentDate, (data) => {
+            measurements.push(data);
+            console.log(measurements);
+
+            let values_previous = [];
+            let values_current = [];
+
+            for(let i = 0; i < measurements[0].length; i++){
+                values_previous.push(parseFloat(measurements[0][i].measured_value));
             }
 
-            if (averages[1]){
-                values_current = averages[1].values;
+            for(let i = 0; i < measurements[1].length; i++){
+                values_current.push(parseFloat(measurements[1][i].measured_value));
             }
 
-           updateChart(dates.previousDate, values_previous, dates.currentDate, values_current);
-
+            updateChart(dates.previousDate, values_previous, dates.currentDate, values_current);
 
 
         });
+
+
     });
 
 }
 
 /**
- * Function to fetch measurement data with fiscal code and date.
+ * Function to fetch average data with fiscal code and date.
  * @param fiscal_code: patient fiscal code;
  * @param date: timestamp;
  * @param callback:
  */
-function fetchData(fiscal_code, date, callback) {
+function fetchAverage(fiscal_code, date, callback) {
     const input = {
         fiscal_code: fiscal_code,
         date: date
@@ -256,10 +266,44 @@ function getCurrentAndPreviousDate(requested_date) {
         dates.previousDate = previousDateFormatted;
 
     } else {
-        dates.currentDate = "Today";
-        dates.previousDate = "Yesterday";
+        const today = new Date();
+        const previousDate = new Date(today);
+        previousDate.setDate(today.getDate() - 1);
+        const todayFormatted = today.toISOString().split('T')[0];
+        const previousDateFormatted = previousDate.toISOString().split('T')[0];
+        dates.currentDate = todayFormatted;
+        dates.previousDate = previousDateFormatted;
     }
     return dates;
+}
+
+
+function fetchMeasurements(fiscal_code, date, callback) {
+    const input = {
+        fiscal_code: fiscal_code,
+        date: date
+    };
+
+    fetch('http://localhost:5000/measurements', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(input)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error: status code ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            callback(data);
+        })
+        .catch(error => {
+            console.log(`Error: ${error.message}`);
+        });
 }
 
 /**
@@ -273,10 +317,10 @@ function updateChart(previousDate, previousData, currentDate, currentData) {
 
     chart.updateSeries([{
         name: previousDate,
-        data: JSON.parse(previousData)
+        data: previousData
     }, {
         name: currentDate,
-        data: JSON.parse(currentData)
+        data: currentData
     }]);
 
 }

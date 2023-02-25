@@ -61,5 +61,32 @@ def get_average():
     return res
 
 
+@app.route('/measurements', methods=['POST'])
+@cross_origin()
+def get_measurements():
+
+    data = request.get_json()
+    fiscal_code = data.get('fiscal_code')
+    date = data.get('date')
+
+    measurements_table = dynamodb.Table("Measurements")
+
+    response = measurements_table.query(
+        KeyConditionExpression='fiscal_code = :fc AND begins_with(#timestamp, :ts)',
+        ExpressionAttributeValues={
+            ':fc': fiscal_code,
+            ':ts': date
+        },
+        ExpressionAttributeNames={
+            '#timestamp': 'timestamp'
+        }
+    )
+
+    items = response['Items']
+    print(items)
+    res = make_response(jsonify(items), 200)
+    return res
+
+
 if __name__ == '__main__':
     app.run(debug=True)
