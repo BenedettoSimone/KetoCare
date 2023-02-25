@@ -68,21 +68,21 @@ body, html {
 }
 
 
-#button-close{
-height: 50px;
+#button-close {
+    height: 50px;
     width: 50px;
     background: var(--primary-color);
     border: 0;
-    border-radius:15px;
+    border-radius: 15px;
     position: absolute;
-    right: 10px;
+    right: 30px;
     top: 23px;
     cursor: pointer;
     display: none;
 }
 
-#button-close i{
-font-size: 20px;
+#button-close i {
+    font-size: 20px;
     color: white;
 
 }
@@ -274,6 +274,10 @@ font-size: 20px;
     overflow-y: scroll;
 }
 
+#right-content #bg-right::-webkit-scrollbar {
+    display: none;
+}
+
 
 #right-content #bg-right #navbar {
     background-color: #ffffff;
@@ -290,25 +294,25 @@ font-size: 20px;
 }
 
 
-#right-content #bg-right #navbar ul{
+#right-content #bg-right #navbar ul {
     width: 100%;
     display: flex;
     justify-content: space-between;
     padding: 0;
 }
 
-#toggle-left-content{
-height: 50px;
+#toggle-left-content {
+    height: 50px;
     width: 50px;
     background: var(--primary-color);
     border: 0;
-    border-radius:15px;
+    border-radius: 15px;
     display: none;
     cursor: pointer;
 }
 
-#toggle-left-content i{
-font-size: 20px;
+#toggle-left-content i {
+    font-size: 20px;
     color: white;
 
 }
@@ -633,38 +637,38 @@ font-size: 20px;
 
 /* Hide left content and create sidebar menu */
 @media screen and (max-width: 857px) {
- #left-content {
-    display: none;
-    height: 100vh;
-    width: 376px;
-    position: absolute;
-    top: 0;
-    left: -376px;
-    z-index: 2;
-    background-color: white;
-    transition: transform 0.3s ease-in-out;
-    will-change: transform;
-     box-shadow: var(--box-shadow);
-}
+    #left-content {
+        display: none;
+        height: 100vh;
+        width: 376px;
+        position: absolute;
+        top: 0;
+        left: -376px;
+        z-index: 2;
+        background-color: white;
+        transition: transform 0.3s ease-in-out;
+        will-change: transform;
+        box-shadow: var(--box-shadow);
+    }
 
-#left-content.show-left-content {
-    display: block;
-    transform: translateX(0);
-    left: 0;
-}
+    #left-content.show-left-content {
+        display: block;
+        transform: translateX(0);
+        left: 0;
+    }
 
-#left-content.hide-left-content {
-    display: none;
-    transform: translateX(-100%);
-    left: -376px;
-}
+    #left-content.hide-left-content {
+        display: none;
+        transform: translateX(-100%);
+        left: -376px;
+    }
 
     #right-content {
         width: 100%;
         padding-left: 20px;
     }
 
-    #toggle-left-content, #button-close{
+    #toggle-left-content, #button-close {
         display: block;
     }
 }
@@ -676,12 +680,14 @@ font-size: 20px;
         grid-column: 1 / span 2;
         padding-right: 0;
     }
+
     .cell-2 {
         grid-row: 3 / span 1;
         grid-column: 1 / span 2;
         padding-left: 0px;
         padding-top: 20px;
     }
+
     .cell-3 {
         grid-row: 4 / span 1;
         grid-column: 1 / span 2;
@@ -691,13 +697,15 @@ font-size: 20px;
 
 
 @media screen and (max-width: 430px) {
-    #right-content{
+    #right-content {
         padding: 0;
     }
-    #right-content #bg-right{
-        border-radius:0;
+
+    #right-content #bg-right {
+        border-radius: 0;
     }
-    #calendar{
+
+    #calendar {
         flex-direction: column;
         align-items: flex-start;
     }
@@ -706,25 +714,58 @@ font-size: 20px;
         padding-top: 20px;
     }
 
-    .container .col-b .cell-5 #patient-info .info{
+    .container .col-b .cell-5 #patient-info .info {
         flex-direction: column;
         align-items: center;
     }
-    .container .col-b .cell-5 #patient-info .info .card-info{
+
+    .container .col-b .cell-5 #patient-info .info .card-info {
         flex-direction: row;
         flex-grow: 1;
         width: auto;
     }
 
+    #left-content {
+        display: none;
+
+        width: 100%;
+        left: 100%;
+        z-index: 2;
+    }
+
+    #left-content.show-left-content {
+        display: block;
+        transform: translateX(0);
+        left: 0;
+    }
+
+    #left-content.hide-left-content {
+        display: none;
+        transform: translateX(-100%);
+        left: -100%;
+    }
+
 }
 
 
-@media screen and (max-width: 370px) {
- #right-content #bg-right {
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
- }
+@media screen and (max-width: 375px) {
+    #right-content #bg-right {
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #right-content #navbar li span {
+        display: none;
+    }
+
+    #left-content {
+        padding: 0 10px 0 10px;
+    }
+
+    #button-close {
+        right: 10px;
+    }
 }
 
 
