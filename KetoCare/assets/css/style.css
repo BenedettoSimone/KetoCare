@@ -616,26 +616,60 @@ body, html {
 
 
 @media screen and (max-width: 500px) {
-
     .cell-1 {
         grid-row: 2 / span 1;
         grid-column: 1 / span 2;
         padding-right: 0;
     }
-
     .cell-2 {
         grid-row: 3 / span 1;
         grid-column: 1 / span 2;
         padding-left: 0px;
         padding-top: 20px;
     }
-
-
     .cell-3 {
         grid-row: 4 / span 1;
         grid-column: 1 / span 2;
         padding-top: 20px;
     }
+}
 
+
+@media screen and (max-width: 430px) {
+    #right-content{
+        padding: 0;
+    }
+    #right-content #bg-right{
+        border-radius:0;
+    }
+    #calendar{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cell-1 {
+        padding-top: 20px;
+    }
+
+    .container .col-b .cell-5 #patient-info .info{
+        flex-direction: column;
+        align-items: center;
+    }
+    .container .col-b .cell-5 #patient-info .info .card-info{
+        flex-direction: row;
+        flex-grow: 1;
+        width: auto;
+    }
 
 }
+
+
+@media screen and (max-width: 370px) {
+ #right-content #bg-right {
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+ }
+}
+
+
