@@ -1,4 +1,3 @@
-
 :root {
     --primary-color: #3a9ffc;
     --background-content: #f5f6f7;
@@ -7,7 +6,6 @@
     --secondary-text: #909bad;
     --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     --green: #2dbfc3;
-
 }
 
 * {
@@ -23,13 +21,11 @@ body, html {
     background-color: white;
 }
 
-
 /* ==== BASE STRUCTURE ====*/
 #body-container {
     height: 100vh;
     display: flex;
     justify-content: center;
-
 }
 
 #left-content {
@@ -43,8 +39,8 @@ body, html {
     padding: 20px 20px 20px 0;
 }
 
-
 /* ==== END BASE STRUCTURE ==== */
+
 
 /* ==== LEFT CONTENT ==== */
 
@@ -67,7 +63,6 @@ body, html {
     height: 43px;
 }
 
-
 #button-close {
     height: 50px;
     width: 50px;
@@ -84,7 +79,6 @@ body, html {
 #button-close i {
     font-size: 20px;
     color: white;
-
 }
 
 
@@ -95,10 +89,8 @@ body, html {
 }
 
 #left-content #list-container h1 {
-
     color: var(--primary-text);
     margin: 0 0 0 10px;
-
 }
 
 /* SEARCH BAR */
@@ -114,7 +106,6 @@ body, html {
     padding-left: 10px;
     margin: 20px 0 20px 0;
 }
-
 
 .icon {
     color: var(--secondary-text);
@@ -132,26 +123,6 @@ body, html {
     color: var(--primary-text);
     font-size: 16px;
 }
-
-/*
-.search-bar .button-search {
-    background: var(--primary-color);
-    border: none;
-    border-radius: 0 18px 18px 0;
-    font-weight: 500;
-    font-size: 20px;
-    height: 50px;
-    width: 18rem;
-    cursor: pointer;
-    text-align: center;
-}
-
-.button-search a{
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-}
-*/
 
 .search-bar .clear-btn {
     background: var(--primary-color);
@@ -181,7 +152,6 @@ body, html {
     display: none;
 }
 
-
 .search-bar input[type="text"] {
     text-transform: uppercase;
     color: var(--primary-text);
@@ -190,7 +160,6 @@ body, html {
 .search-bar input[type="text"]::placeholder {
     text-transform: capitalize;
 }
-
 
 /* CARD CONTAINER */
 #left-content #list-container #cards-container {
@@ -246,12 +215,8 @@ body, html {
 }
 
 #left-content #list-container #cards-container .card.active {
-
     border: 2px solid var(--primary-color);
     background-color: #F1F6FF;
-
-    /*
-   background-color: var(--primary-color);*/
 }
 
 #left-content #list-container #cards-container .card.active .right-card h2,
@@ -278,7 +243,6 @@ body, html {
     display: none;
 }
 
-
 #right-content #bg-right #navbar {
     background-color: #ffffff;
     height: 70px;
@@ -290,9 +254,7 @@ body, html {
     justify-content: end;
     padding-left: 12px;
     padding-right: 20px;
-
 }
-
 
 #right-content #bg-right #navbar ul {
     width: 100%;
@@ -314,7 +276,6 @@ body, html {
 #toggle-left-content i {
     font-size: 20px;
     color: white;
-
 }
 
 #right-content #bg-right #navbar ul li {
@@ -337,7 +298,6 @@ body, html {
     font-weight: 600;
 }
 
-
 #right-content #bg-right .container {
     margin-top: 20px;
     padding-right: 20px;
@@ -352,7 +312,6 @@ body, html {
     display: grid;
     grid-template-columns: 50% 50%;
     /*background-color: #ddd;*/
-
 }
 
 .col-b {
@@ -368,7 +327,6 @@ body, html {
     justify-content: space-between;
     align-items: center;
 }
-
 
 .cell-1 {
     grid-row: 2 / span 1; /* second row */
@@ -391,10 +349,8 @@ body, html {
     padding-top: 20px;
 }
 
-
 .cell-5 {
     /*background-color: #888;*/
-
 }
 
 #calendar h1 {
@@ -443,18 +399,6 @@ body, html {
 
 .flatpickr-current-month .flatpickr-monthDropdown-months {
     appearance: none !important;
-    /*
-  background-color: transparent !important;
-  border: none !important;
-  padding: 0 1em 0 0 !important;
-  margin: 0 !important;
-  width: 100% !important;
-  font-family: inherit !important;
-  font-size: inherit !important;
-  cursor: inherit !important;
-  line-height: inherit !important;
-
-     */
 }
 
 .numInputWrapper .arrowUp, .numInputWrapper .arrowDown {
@@ -630,7 +574,7 @@ body, html {
 
     #right-content #bg-right .container {
         grid-template-columns: 100%;
-        padding-right: 0px;
+        padding-right: 0;
     }
 }
 
@@ -684,7 +628,7 @@ body, html {
     .cell-2 {
         grid-row: 3 / span 1;
         grid-column: 1 / span 2;
-        padding-left: 0px;
+        padding-left: 0;
         padding-top: 20px;
     }
 

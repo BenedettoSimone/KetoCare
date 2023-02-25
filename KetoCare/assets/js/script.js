@@ -28,7 +28,7 @@ fetch('http://localhost:5000/patients', {
 
 
 /**
- * Function to create card. This function, for each item received, create a card
+ * Function to create card. This function, for each item received, creates a card
  * to show name, surname and fiscal code.
  */
 function create_cards() {
@@ -145,12 +145,35 @@ searchInput.addEventListener("input", () => {
 /* ================== END PATIENT LIST SECTION ================== */
 
 
+/**
+ * Hide and show sidebar
+ */
+let content = document.querySelector('#left-content');
+let openButton = document.querySelector('#toggle-left-content');
+let closeButton = document.querySelector('#button-close');
+
+openButton.addEventListener('click', function () {
+    if (content.classList.contains('show-left-content')) {
+        content.classList.remove('show-left-content');
+        content.classList.add('hide-left-content');
+    } else {
+        content.classList.remove('hide-left-content');
+        content.classList.add('show-left-content');
+    }
+});
+
+closeButton.addEventListener('click', function () {
+        content.classList.remove('show-left-content');
+        content.classList.add('hide-left-content');
+});
+
+
 /* ================== MEASUREMENTS SECTION ================== */
 
 /**
  * Function to fetch average data about a patient. The function get average of a date and previous date.
  * @param fiscal_code: patient fiscal code;
- * @param requested_date
+ * @param requested_date: to get measurements about past dates (!= current day)
  */
 
 function get_measurements(fiscal_code, requested_date) {
@@ -205,26 +228,19 @@ function get_measurements(fiscal_code, requested_date) {
             for(let i = 0; i < measurements[0].length; i++){
                 values_previous.push(parseFloat(measurements[0][i].measured_value));
             }
-
             for(let i = 0; i < measurements[1].length; i++){
                 values_current.push(parseFloat(measurements[1][i].measured_value));
             }
-
             updateChart(dates.previousDate, values_previous, dates.currentDate, values_current);
-
-
         });
-
-
     });
-
 }
 
 /**
  * Function to fetch average data with fiscal code and date.
  * @param fiscal_code: patient fiscal code;
  * @param date: timestamp;
- * @param callback:
+ * @param callback: callback function;
  */
 function fetchAverage(fiscal_code, date, callback) {
     const input = {
@@ -256,6 +272,8 @@ function fetchAverage(fiscal_code, date, callback) {
 
 /**
  * Function to compute current date and previous date.
+ * @param requested_date: date in format YYYY-MM-DD;
+ * @returns {{}} : current date and previous date;
  */
 function getCurrentAndPreviousDate(requested_date) {
     const dates = {}
@@ -280,7 +298,12 @@ function getCurrentAndPreviousDate(requested_date) {
     return dates;
 }
 
-
+/**
+ * Function to fetch measurements data with fiscal code and date.
+ * @param fiscal_code: fiscal code of patient;
+ * @param date: date;
+ * @param callback: callback function;
+ */
 function fetchMeasurements(fiscal_code, date, callback) {
     const input = {
         fiscal_code: fiscal_code,
@@ -327,22 +350,16 @@ function updateChart(previousDate, previousData, currentDate, currentData) {
     }]);
 
 }
-
-
-
 /* ================== END MEASUREMENTS SECTION ================== */
 
 
 /* ================== PATIENT INFO SECTION ================== */
-
-
 const patientInfoDiv = document.querySelector("#patient-info");
-
 
 /**
  * Function to search in cardsData array the element with a specific fiscal_code.
  * @param fiscalCode: fiscal code of patient;
- * @returns {*}
+ * @returns {*}: element with fiscal code input.
  */
 const findPatientByFiscalCode = (fiscalCode) => {
     return cardsData.find(patient => patient.fiscal_code === fiscalCode);
@@ -364,7 +381,6 @@ function computeAge(birthdate) {
     }
     return age;
 }
-
 
 /**
  * Function to set up info about patient in the dedicated section.

@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Poppins:400,600,700' rel='stylesheet'>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="assets/img/logo_icon.png" rel="icon" type="image/png" sizes="32x32">
     <title>KetoCare</title>
@@ -21,7 +19,7 @@
     <div id="left-content">
         <!--LOGO-->
         <div id="logo">
-            <img src="./assets/img/logo.png">
+            <img src="./assets/img/logo.png" alt="KetoCare logo">
         </div>
         <button id="button-close"><i class='bx bx-x' ></i></button>
 
@@ -56,7 +54,7 @@
                 <ul> <li>
                         <button id="toggle-left-content"><i class='bx bx-menu-alt-left'></i></button>
                     </li>
-                    <li><a><img src="assets/img/doctor_user.jpg"><span>Dr. Mario Rossi</span></a></li>
+                    <li><a><img src="assets/img/doctor_user.jpg" alt="Profile Doctor Image"><span>Dr. Mario Rossi</span></a></li>
                 </ul>
 
             </div>
@@ -80,7 +78,7 @@
                                 <h4 class="card-title">pH Average <span></span></h4>
                                 <div class="sub-content">
                                     <div class="icon">
-                                        <img src="assets/img/blood_2.png">
+                                        <img src="assets/img/blood_2.png" alt="icon_blood">
                                     </div>
                                     <div class="content">
                                         <h3 class="ph_average"></h3>
@@ -96,7 +94,7 @@
                                 <h4 class="card-title">pH Average <span></span></h4>
                                 <div class="sub-content">
                                     <div class="icon">
-                                        <img src="assets/img/blood_1.png">
+                                        <img src="assets/img/blood_1.png" alt="icon_blood">
                                     </div>
                                     <div class="content">
                                         <h3 class="ph_average"></h3>
@@ -114,7 +112,7 @@
                 <div class="col-b">
                     <div class="cell-5">
                         <div id="patient-info">
-                            <img src="">
+                            <img src="" alt="Patient Profile Image">
                             <h2>NAME SURNAME</h2>
                             <h4>FISCAL CODE</h4>
                             <div class="info">
@@ -218,28 +216,6 @@
             // Set average and measurements data
             get_measurements(activeCard.id, dateStr)
         }
-    });
-</script>
-
-<script>
-    var content = document.querySelector('#left-content');
-    var openButton = document.querySelector('#toggle-left-content');
-    var closeButton = document.querySelector('#button-close');
-
-    openButton.addEventListener('click', function () {
-        if (content.classList.contains('show-left-content')) {
-            content.classList.remove('show-left-content');
-            content.classList.add('hide-left-content');
-        } else {
-            content.classList.remove('hide-left-content');
-            content.classList.add('show-left-content');
-        }
-    });
-
-
-    closeButton.addEventListener('click', function () {
-            content.classList.remove('show-left-content');
-            content.classList.add('hide-left-content');
     });
 </script>
 </body>
