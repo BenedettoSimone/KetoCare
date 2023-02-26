@@ -15,14 +15,12 @@ except ClientError as e:
 # Load Data
 patients_table = dynamodb.Table('Patients')
 
-# fiscal_code, name, surname, birthdate, diabet type (1 or 2), image_file
+# fiscal_code, first name, surname, birthdate, diabet type (1 or 2), image_file
 patients = [('FRRLNZ50M24F839C', 'Lorenzo', 'Ferrari', '24/08/1950', '1', '../images/patient_images/lorenzo.jpg'),
                 ('BNCCHR89A41L219V', 'Chiara', 'Bianchi', '01/01/1989', '2', '../images/patient_images/chiara.jpg'),
                 ('FRNRSS71D70A662A', 'Francesca', 'Russo', '30/04/1971', '1', '../images/patient_images/francesca.jpg'),
                 ('RMNLRT80T03A783U', 'Alberto', 'Romano', '03/12/1980', '2', '../images/patient_images/alberto.jpg'),
                 ('BRBSMN63P26F205X', 'Simone', 'Barbieri', '26/09/1963', '1', '../images/patient_images/simone.jpg')]
-
-
 
 
 for patient in patients:

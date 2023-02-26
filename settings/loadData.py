@@ -47,7 +47,7 @@ for day in range(1, 3):
             time.sleep(1)
 
         # Compute yesterday
-        measure_date = str((datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
+        measure_date = str((datetime.datetime.now() - datetime.timedelta(days=day)).strftime("%Y-%m-%d"))
 
         mean_pH = round(statistics.mean(values), 2)
 

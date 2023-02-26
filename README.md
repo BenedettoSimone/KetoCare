@@ -6,7 +6,7 @@ This project aims to provide support to doctors to monitor diabetes and prevent 
 
 Diabetes is a chronic disease that requires continuous and accurate monitoring of blood sugar levels. A potentially dangerous complication of diabetes, called ketoacidosis, occurs when the organism begins to produce excess ketones leading to an increase of the acidity level in the blood.
 
-The project is based on an IoT Cloud architecture where each sensor (placed on each patient) collects information about blood pH and sends it to the Cloud where it will be processed through Serverless Computing and stored in a NoSQL database.
+The project is based on an IoT Cloud architecture where each sensor (placed on each patient) collects information about blood pH and sends them on where they are processed through Serverless Computing and stored in a NoSQL database.
 
 The sensors' functionality is inspired by the method described in the paper [Bioresorbable Nanostructured Chemical Sensor for Monitoring of pH Level In Vivo](https://onlinelibrary.wiley.com/doi/pdf/10.1002/advs.202202062). The sensor takes pH measurements from `4.0 to 7.45`.
 
@@ -38,6 +38,32 @@ At the end of the day, a time triggered Serverless function computes the average
 Each message sent on the "Warning" queue triggers a Serverless function that sends an email to the doctor notifying him of the warning.
 <p align="center"><img src="./images/email.png"/></p>
 
+To the doctor will be provided a web application offering the following functionalities:
+1. Display of patient list and information such as age and type of diabetes;
+2. Average display for the current and previous day;
+3. Display of measurements taken on the current and previous day;
+4. Display of average and measurement history.
+
+<p align="center"><img src="./images/dashboard.png"/></p>
+
+The web application consists of a user interface and a set of RESTful APIs defined using the Flask framework. 
+
+The APIs offer the possibility of:
+
+1. obtain all patients in the "Patients" table. Each item in the table contains the following information:
+   - fiscal code;
+   - first name;
+   - surname;
+   - date of birth in "DD/MM/YYYY" format;
+   - type of diabetes (1 or 2);
+   - profile image name;
+   
+   <br><p align="center"><img src="./images/patients_table.png"/></p><br>
+   
+   The image name is used to retrieve the patient image contained in the S3 "patientsimages" bucket.<br><br>
+    
+2. obtain the average of a given patient on a given date;
+3. obtain the measurements of a specific patient on a specific date.
 
 ## Architecture
 <p align="center"><img src="./images/architecture.jpg"/></p>
