@@ -7,11 +7,11 @@ import random
 sqs = boto3.resource('sqs', endpoint_url='http://localhost:4566')
 
 # Device = (device_Id, fiscal_code)
-devices = [('01', 'CGLSZV61B26A832H'),
-           ('02', 'TGHCNE68P03C166P'),
-           ('03', 'HQCQGX75E04D233U'),
-           ('04', 'DMCNJS43M44B320A'),
-           ('05', 'RMTPYV37C30C865B')]
+devices = [('01', 'FRRLNZ50M24F839C'),
+           ('02', 'BNCCHR89A41L219V'),
+           ('03', 'FRNRSS71D70A662A'),
+           ('04', 'RMNLRT80T03A783U'),
+           ('05', 'BRBSMN63P26F205X')]
 
 # Seven measurements per day
 for i in range(1,8):

@@ -16,11 +16,14 @@ except ClientError as e:
 patients_table = dynamodb.Table('Patients')
 
 # fiscal_code, name, surname, birthdate, diabet type (1 or 2), image_file
-patients = [('CGLSZV61B26A832H', 'Mario', 'Rossi', '07/02/2000', '1', '../images/patient_images/mario.jpg'),
-           ('TGHCNE68P03C166P', 'Paola', 'Verdi', '03/12/1978', '2', '../images/patient_images/luca.jpg'),
-           ('HQCQGX75E04D233U', 'Marco', 'Del Gaudio', '31/12/1989', '1', '../images/patient_images/marco.jpg'),
-           ('DMCNJS43M44B320A', 'Eleonora', 'Capotondi', '05/03/1991', '2', '../images/patient_images/eleonora.jpg'),
-           ('RMTPYV37C30C865B', 'Luca', 'Esposito', '19/06/2001', '1', '../images/patient_images/paola.jpg')]
+patients = [('FRRLNZ50M24F839C', 'Lorenzo', 'Ferrari', '24/08/1950', '1', '../images/patient_images/lorenzo.jpg'),
+                ('BNCCHR89A41L219V', 'Chiara', 'Bianchi', '01/01/1989', '2', '../images/patient_images/chiara.jpg'),
+                ('FRNRSS71D70A662A', 'Francesca', 'Russo', '30/04/1971', '1', '../images/patient_images/francesca.jpg'),
+                ('RMNLRT80T03A783U', 'Alberto', 'Romano', '03/12/1980', '2', '../images/patient_images/alberto.jpg'),
+                ('BRBSMN63P26F205X', 'Simone', 'Barbieri', '26/09/1963', '1', '../images/patient_images/simone.jpg')]
+
+
+
 
 for patient in patients:
     try:
