@@ -60,7 +60,7 @@ The APIs offer the possibility of:
    
    <p align="center"><img src="./images/patients_table.png"/></p>
    
-   The image name is used to retrieve the patient image contained in the S3 "patientsimages" bucket.<br><br>
+   The image name is used to retrieve the patient image contained in the S3 "patientsimages" bucket.
     
 2. obtain the average of a given patient on a given date;
 3. obtain the measurements of a specific patient on a specific date.
