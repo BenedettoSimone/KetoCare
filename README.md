@@ -58,7 +58,7 @@ The APIs offer the possibility of:
    - type of diabetes (1 or 2);
    - profile image name;
    
-   <br><p align="center"><img src="./images/patients_table.png"/></p><br>
+   <p align="center"><img src="./images/patients_table.png"/></p>
    
    The image name is used to retrieve the patient image contained in the S3 "patientsimages" bucket.<br><br>
     
