@@ -152,10 +152,16 @@ python3 settings/loadData.py
 python3 settings/loadPatients.py
 ```
 	
-4) Check that the table have been correctly populated using the AWS CLI (*Press q to exit*)
+4) Check that the tables have been correctly populated using the AWS CLI (*Press q to exit*)
 
 ```
 aws dynamodb scan --table-name Measurements --endpoint-url=http://localhost:4566
+```
+```
+aws dynamodb scan --table-name Averages --endpoint-url=http://localhost:4566
+```
+```
+aws dynamodb scan --table-name Patients --endpoint-url=http://localhost:4566
 ```
 	
 or using the [dynamodb-admin] GUI with the command
@@ -168,21 +174,24 @@ and then going to `http://localhost:8001`.
 
 ### 5. Set up the Lambda function triggered by SQS messages that store the measurements
 
-1) Zip the Python file and create the Lambda function
+1) Create the role
 ```
 aws iam create-role --role-name lambdarole --assume-role-policy-document file://settings/role_policy.json --query 'Role.Arn' --endpoint-url=http://localhost:4566
 ```
+2) Attach the policy
 ```
 aws iam put-role-policy --role-name lambdarole --policy-name lambdapolicy --policy-document file://settings/policy.json --endpoint-url=http://localhost:4566
 ```
+3) Create the zip file
 ```
 zip saveMeasurements.zip settings/saveMeasurements.py
 ```
+4) Create the function
 ```
 aws lambda create-function --function-name saveMeasurements --zip-file fileb://saveMeasurements.zip --handler settings/saveMeasurements.lambda_handler --runtime python3.6 --role arn:aws:iam::000000000000:role/lambdarole --endpoint-url=http://localhost:4566
 ```
 
-2) Create the event source mapping between the function and the queue
+5) Create the event source mapping between the function and the queue
 
 ```
 aws lambda create-event-source-mapping --function-name saveMeasurements --batch-size 5 --maximum-batching-window-in-seconds 60 --event-source-arn arn:aws:sqs:us-east-2:000000000000:Measurements --endpoint-url=http://localhost:4566
@@ -225,3 +234,15 @@ aws lambda create-event-source-mapping --function-name emailWarning --batch-size
 ```
 aws sqs send-message --queue-url http://localhost:4566/000000000000/Warning --message-body '{"fiscal_code": "FRRLNZ50M24F839C","measure_date": "2023-02-27 18:57:03", "measured_value": "7.02"}' --endpoint-url=http://localhost:4566
 ```
+
+### 7. Create the time-triggered Lambda function to compute the average of each patient
+1) Create the zip file
+```
+zip computeAvg.zip settings/computeAvg.py
+```
+2) Create the function and save the Arn (it should be `arn:aws:lambda:us-east-2:000000000000:function:computeAvg`)
+```
+aws lambda create-function --function-name computeAvg --zip-file fileb://computeAvg.zip --handler settings/computeAvg.lambda_handler --runtime python3.6 --role arn:aws:iam::000000000000:role/lambdarole --endpoint-url=http://localhost:4566
+```
+
+
