@@ -89,19 +89,19 @@ The APIs offer the possibility of:
 
 
 ## Setting up the environment
-**1. Clone the repository**
+### 1. Clone the repository
 
 ```
 git clone https://github.com/BenedettoSimone/KetoCare-Motion.git
 ```
 
-**2. Launch [LocalStack](https://localstack.cloud/)**
+### 2. Launch [LocalStack](https://localstack.cloud/)
 
 ```
 docker run --rm -it -p 4566:4566 -p 4571:4571 localstack/localstack
 ```
 
-**3. Create a SQS queue for measurements and for warnings**
+### 3. Create a SQS queue for measurements and warnings, and create S3 bucket to store images
 
 ```
 aws sqs create-queue --queue-name Measurements --endpoint-url=http://localhost:4566
@@ -111,6 +111,9 @@ aws sqs create-queue --queue-name Measurements --endpoint-url=http://localhost:4
 aws sqs create-queue --queue-name Warning --endpoint-url=http://localhost:4566
 ```
 
+```
+aws s3 mb s3://patientsimages --endpoint-url=http://localhost:4566
+```
 
 To check that the queues have been correctly created use the following command.
 	
@@ -118,9 +121,9 @@ To check that the queues have been correctly created use the following command.
 aws sqs list-queues --endpoint-url=http://localhost:4566
 ```
 
-**4. Create the DynamoDB table and populate it**
+### 4. Create the DynamoDB tables and populate them
 	
-1) Use the python code to create the DynamoDB tables
+1) Use the Python code to create the DynamoDB tables
 	
 ```shell
 cd KetoCare
@@ -140,7 +143,7 @@ python3 settings/createPatientsTable.py
 aws dynamodb list-tables --endpoint-url=http://localhost:4566
 ```
 	
-3) Populate tables with initial data. The `loadData` script loads the measurements and the average of the two days preceding the current day. The `loadPatients` script loads the data of five patients. In addition, the patient's profile photo will be loaded into the S3 bucket "patientsimages".
+3) Populate tables with initial data. The `loadData` script loads the measurements and the average of the two days preceding the current day. The `loadPatients` script loads the data of five patients. In addition, the patient's profile photo will be loaded into the S3 bucket.
 	
 ```
 python3 settings/loadData.py
@@ -163,7 +166,7 @@ DYNAMO_ENDPOINT=http://0.0.0.0:4566 dynamodb-admin
 	
 and then going to `http://localhost:8001`.
 
-**5. Set up the Lambda function triggered by SQS messages that store the measurements.**
+### 5. Set up the Lambda function triggered by SQS messages that store the measurements
 
 1) Zip the Python file and create the Lambda function
 ```
@@ -186,7 +189,7 @@ aws lambda create-event-source-mapping --function-name saveMeasurements --batch-
 ```
 
 
-**6. Set up the Lambda function triggered by SQS messages that notifies errors in IoT devices via email**
+### 6. Set up the Lambda function triggered by SQS messages that notifies errors in IoT devices via email
 
 1) Create the IFTT Applet
 	1. Go to https://ifttt.com/ and sign-up or log-in if you already have an account.
@@ -220,5 +223,5 @@ aws lambda create-event-source-mapping --function-name emailWarning --batch-size
 5) Test the mapping sending a message on the error queue and check that an email is sent
 
 ```
-aws sqs send-message --queue-url http://localhost:4566/000000000000/Warning --message-body '{"fiscal_code": "SMNDBT00B07I197T","measure_date": "2011-223-232", "measured_value": "7.5"}' --endpoint-url=http://localhost:4566
+aws sqs send-message --queue-url http://localhost:4566/000000000000/Warning --message-body '{"fiscal_code": "FRRLNZ50M24F839C","measure_date": "2023-02-27 18:57:03", "measured_value": "7.02"}' --endpoint-url=http://localhost:4566
 ```
