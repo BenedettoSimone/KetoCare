@@ -2,7 +2,7 @@
 
 <p align="center"><img src="./images/cover.png"/></p>
 
-This project aims to provide support to doctors to monitor diabetes and prevent diabetic ketoacidosis.
+This project aims to provide support to doctor to monitor diabetes and prevent diabetic ketoacidosis.
 
 Diabetes is a chronic disease that requires continuous and accurate monitoring of blood sugar levels. A potentially dangerous complication of diabetes, called ketoacidosis, occurs when the organism begins to produce excess ketones leading to an increase of the acidity level in the blood.
 
@@ -82,7 +82,7 @@ The APIs offer the possibility of:
 ## Prerequisites
 1. [Docker](https://docs.docker.com/get-docker/);
 2. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html);
-3. [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html).
+3. [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html);
 4. (Optional) nodejs for database visualization.
 
 
@@ -138,7 +138,7 @@ python3 settings/createPatientsTable.py
 aws dynamodb list-tables --endpoint-url=http://localhost:4566
 ```
 	
-3) Populate the tables with some data. In particular, will be loaded the measurements and the average of the previous day's measurements of the current day
+3) Populate tables with initial data. The `loadData` script loads the measurements and the average of the two days preceding the current day. The `loadPatients` script loads the data of five patients. In addition, the patient's profile photo will be loaded into the S3 bucket "patientsimages".
 	
 ```
 python3 settings/loadData.py
@@ -147,7 +147,7 @@ python3 settings/loadData.py
 python3 settings/loadPatients.py
 ```
 	
-4) Check that the table are been correctly populated using the AWS CLI (*Press q to exit*)
+4) Check that the table have been correctly populated using the AWS CLI (*Press q to exit*)
 
 ```
 aws dynamodb scan --table-name Measurements --endpoint-url=http://localhost:4566
@@ -161,7 +161,30 @@ DYNAMO_ENDPOINT=http://0.0.0.0:4566 dynamodb-admin
 	
 and then going to `http://localhost:8001`.
 
-**5. Set up the Lambda function triggered by SQS messages that notifies errors in IoT devices via email**
+**5. Set up the Lambda function triggered by SQS messages that store the measurements.**
+
+1) Zip the Python file and create the Lambda function
+```
+aws iam create-role --role-name lambdarole --assume-role-policy-document file://settings/role_policy.json --query 'Role.Arn' --endpoint-url=http://localhost:4566
+```
+```
+aws iam put-role-policy --role-name lambdarole --policy-name lambdapolicy --policy-document file://settings/policy.json --endpoint-url=http://localhost:4566
+```
+```
+zip saveMeasurements.zip settings/saveMeasurements.py
+```
+```
+aws lambda create-function --function-name saveMeasurements --zip-file fileb://saveMeasurements.zip --handler settings/saveMeasurements.lambda_handler --runtime python3.6 --role arn:aws:iam::000000000000:role/lambdarole --endpoint-url=http://localhost:4566
+```
+
+2) Create the event source mapping between the function and the queue
+
+```
+aws lambda create-event-source-mapping --function-name saveMeasurements --batch-size 5 --maximum-batching-window-in-seconds 60 --event-source-arn arn:aws:sqs:us-east-2:000000000000:Measurements --endpoint-url=http://localhost:4566
+```
+
+
+**6. Set up the Lambda function triggered by SQS messages that notifies errors in IoT devices via email**
 
 1) Create the IFTT Applet
 	1. Go to https://ifttt.com/ and sign-up or log-in if you already have an account.
@@ -169,7 +192,7 @@ and then going to `http://localhost:8001`.
 	3. Click "*If This*", type *"webhooks"* in the search bar, and choose the *Webhooks* service.
 	4. Select "*Receive a web request*" and write *"email_warning"* in the "*Event Name*" field. Save the event name since it is required to trigger the event. Click *Create trigger*.
 	5. In the applet page click *Then That*, type *"email"* in the search bar, and select *Email*.
-	6. Click *Send me an email* and fill the fields as follow:
+	6. Click *Send me an email* and fill the fields as follows:
 - *Subject*: `[KetoCare] Warning!`
 		
 - *Body*: `The sensor of patient <b>{{Value1}}</b> reported at <b>{{Value2}}</b> a blood pH value of <b>{{Value3}}</b> .`
@@ -180,15 +203,8 @@ and then going to `http://localhost:8001`.
 
 3) Zip the Python file and create the Lambda function
 ```
-aws iam create-role --role-name lambdarole --assume-role-policy-document file://settings/role_policy.json --query 'Role.Arn' --endpoint-url=http://localhost:4566
-```
-```
-aws iam put-role-policy --role-name lambdarole --policy-name lambdapolicy --policy-document file://settings/policy.json --endpoint-url=http://localhost:4566
-```
-```
 zip emailWarning.zip settings/emailWarning.py
 ```
-
 ```
 aws lambda create-function --function-name emailWarning --zip-file fileb://emailWarning.zip --handler settings/emailWarning.lambda_handler --runtime python3.6 --role arn:aws:iam::000000000000:role/lambdarole --endpoint-url=http://localhost:4566
 ```
@@ -204,33 +220,3 @@ aws lambda create-event-source-mapping --function-name emailWarning --batch-size
 ```
 aws sqs send-message --queue-url http://localhost:4566/000000000000/Warning --message-body '{"fiscal_code": "SMNDBT00B07I197T","measure_date": "2011-223-232", "measured_value": "7.5"}' --endpoint-url=http://localhost:4566
 ```
-
-
-**6. Set up the Lambda function triggered by SQS messages that store the measurements.
-
-1) Zip the Python file and create the Lambda function
-```
-aws iam create-role --role-name lambdarole --assume-role-policy-document file://settings/role_policy.json --query 'Role.Arn' --endpoint-url=http://localhost:4566
-```
-```
-aws iam put-role-policy --role-name lambdarole --policy-name lambdapolicy --policy-document file://settings/policy.json --endpoint-url=http://localhost:4566
-```
-```
-zip saveMeasurements.zip settings/saveMeasurements.py
-```
-
-```
-aws lambda create-function --function-name saveMeasurements --zip-file fileb://saveMeasurements.zip --handler settings/saveMeasurements.lambda_handler --runtime python3.6 --role arn:aws:iam::000000000000:role/lambdarole --endpoint-url=http://localhost:4566
-```
-
-2) Create the event source mapping between the function and the queue
-
-```
-aws lambda create-event-source-mapping --function-name saveMeasurements --batch-size 5 --maximum-batching-window-in-seconds 60 --event-source-arn arn:aws:sqs:us-east-2:000000000000:Measurements --endpoint-url=http://localhost:4566
-```
-
-
-
-RUN SENSOR PY check the data in db
-
-CREATE LAMBDA FUNCTION AND INVOKE MANUALLY o DAILY
