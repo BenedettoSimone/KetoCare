@@ -76,6 +76,8 @@ The APIs offer the possibility of:
 - The time-triggered function is implemented using [Amazon EventBridge](https://aws.amazon.com/eventbridge/).
 - The email is sent using [IFTT](https://ifttt.com/).
 - The DynamoDB GUI is available using [dynamodb-admin](https://github.com/aaronshaf/dynamodb-admin).
+- The patients' images are stored using [Amazon S3](https://aws.amazon.com/it/s3/).
+- The APIs are built with [Flask](https://flask.palletsprojects.com/en/2.2.x/quickstart/#).
 
 
 
