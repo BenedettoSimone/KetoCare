@@ -19,8 +19,14 @@ fetch('http://localhost:5000/patients', {
         return response.json();
     })
     .then(data => {
-        cardsData = data;
-        create_cards()
+        if(data.length > 0){
+            cardsData = data;
+            document.querySelector("#cards-container h5").style.display = "none";
+            document.querySelector("#left-content #list-container #cards-container").style.textAlign = "left";
+            document.querySelector("#right-content #bg-right .container").style.display = "grid";
+            create_cards()
+        }
+
     })
     .catch(error => {
         console.log(`Error: ${error.message}`);

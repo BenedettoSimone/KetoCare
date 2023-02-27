@@ -21,11 +21,45 @@
         <div id="logo">
             <img src="./assets/img/logo.png" alt="KetoCare logo">
         </div>
-        <button id="button-close"><i class='bx bx-x' ></i></button>
+        <button id="button-close"><i class='bx bx-x'></i></button>
 
         <div id="list-container">
             <!-- PATIENT LIST -->
-            <h1>Patient list</h1>
+            <div id="title-container">
+                <h1>Patient list</h1>
+                <button id="new-user-button"><i class='bx bxs-user-plus'></i>Add</button>
+
+                <!--MODAL-->
+                <div id="new-user-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close"><i class='bx bx-x'></i></span>
+                        <form>
+                            <label for="image">Profile image:</label>
+                            <input type="file" id="image" name="image"><br>
+
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name"><br>
+
+                            <label for="surname">Surnname:</label>
+                            <input type="text" id="surname" name="surname"><br>
+
+                            <label for="cf">Fiscal code:</label>
+                            <input type="text" id="cf" name="cf"><br>
+
+                            <label for="date">Date of birth:</label>
+                            <input type="date" id="date-modal" name="date"><br>
+
+                            <label>Diabet Type:</label><br>
+                            <input type="radio" name="diabet-type" value="1">
+                            <label>1</label><br>
+                            <input type="radio" name="diabet-type" value="2">
+                            <label>2</label><br>
+
+                            <input type="submit" value="Confirm">
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <!-- SEARCH BAR -->
             <div class="search-bar">
@@ -43,7 +77,9 @@
                 </div>
             </div>
             <!-- CARD CONTAINER -->
-            <div id="cards-container"></div>
+            <div id="cards-container">
+                <h5>There are no patients. Add them.</h5>
+            </div>
         </div>
 
     </div>
@@ -51,10 +87,12 @@
     <div id="right-content">
         <div id="bg-right">
             <div id="navbar">
-                <ul> <li>
+                <ul>
+                    <li>
                         <button id="toggle-left-content"><i class='bx bx-menu-alt-left'></i></button>
                     </li>
-                    <li><a><img src="assets/img/doctor_user.jpg" alt="Profile Doctor Image"><span>Dr. Mario Rossi</span></a></li>
+                    <li><a><img src="assets/img/doctor_user.jpg" alt="Profile Doctor Image"><span>Dr. Mario Rossi</span></a>
+                    </li>
                 </ul>
 
             </div>
@@ -217,6 +255,47 @@
             get_measurements(activeCard.id, dateStr)
         }
     });
+</script>
+
+
+<script>
+
+    const modal = document.getElementById("new-user-modal");
+    const btn = document.getElementById("new-user-button");
+    const span = document.querySelector("#new-user-modal .close");
+
+    btn.onclick = function () {
+        modal.style.display = "flex";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+
+    const form = document.querySelector("#new-user-modal form");
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Avoid reloading
+
+        const formData = new FormData(form);
+
+        const jsonData = {
+            name: formData.get('name'),
+            surname: formData.get('surname'),
+            cf: formData.get('cf'),
+            date: formData.get('date-modal'),
+            diabetType: formData.get('diabet-type')
+        };
+
+        console.log(jsonData);
+
+        const modal = document.getElementById("new-user-modal");
+        form.reset();
+        modal.style.display = "none";
+    });
+
+
 </script>
 </body>
 </html>
