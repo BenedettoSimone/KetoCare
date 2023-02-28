@@ -1,4 +1,6 @@
 import logging
+import os
+
 from botocore.exceptions import ClientError
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS, cross_origin
@@ -87,6 +89,50 @@ def get_measurements():
     res = make_response(jsonify(items), 200)
     return res
 
+
+@app.route('/savePatient', methods=['POST'])
+@cross_origin()
+def save_patient():
+    image = request.files['image']
+    name = request.form['name']
+    surname = request.form['surname']
+    cf = request.form['cf']
+    date = request.form['date']
+    diabet_type = request.form['diabetType']
+
+    # Save the image file to a temporary directory
+    tmp_dir = 'tmp/'
+    if not os.path.exists(tmp_dir):
+        os.makedirs(tmp_dir)
+    tmp_filename = os.path.join(tmp_dir, f"{cf}.jpg")
+    image.save(tmp_filename)
+
+    try:
+        # upload the image in "patientsimages" bucket with another name (fiscal_code.jpg)
+        result = s3_client.upload_file(tmp_filename, "patientsimages", cf + ".jpg")
+    except ClientError as e:
+        logging.error(e)
+
+    # Remove the temporary file from the server
+    os.remove(tmp_filename)
+
+    patients_table = dynamodb.Table('Patients')
+
+    # Insert patient data into DynamoDB
+    item = {
+        'fiscal_code': cf,
+        'name': name,
+        'surname': surname,
+        'birthdate': date,
+        'diabet_type': diabet_type,
+        'image_file': cf + ".jpg"
+    }
+    response = patients_table.put_item(Item=item)
+
+    print("Stored item", item)
+
+    res = make_response(jsonify(response), 200)
+    return res
 
 if __name__ == '__main__':
     app.run(debug=True)
