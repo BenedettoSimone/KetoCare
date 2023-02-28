@@ -200,6 +200,7 @@ const modal = document.getElementById("new-user-modal");
                 document.querySelector("#place-image").style.backgroundImage = `url(../img/patient.png)`;
                 modal.style.display = "none";
                 console.log("Upload done!");
+                location.reload()
             })
             .catch(error => {
                 console.log(`Error: ${error.message}`);

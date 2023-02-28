@@ -245,6 +245,7 @@ body, html {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
 
 }
 
@@ -258,17 +259,20 @@ body, html {
 
 #new-user-modal form .input-field input {
     display: block;
-    width: 400px;
+    width: 300px;
     height: 40px;
     background: transparent;
     border: 1px solid var(--secondary-text);
     transition: all .3s ease;
     padding: 0 15px;
     font-size: 16px;
+    border-radius: 10px;
+    outline-style: none;
+    box-shadow: none;
 }
 
 #new-user-modal form .input-field input:focus {
-    border-color: var(--primary-color);
+    border-color: 1px solid var(--primary-color);
 }
 
 #new-user-modal form .input-field label {
@@ -276,13 +280,42 @@ body, html {
     cursor: text;
     z-index: 2;
     top: 13px;
-    left: 10px;
+    left: 6px;
     font-size: 12px;
     font-weight: 600;
     background: #fff;
     padding: 0 10px;
     color: #999;
     transition: all .3s ease;
+}
+#new-user-modal #modal-input{
+   text-align: center;
+}
+
+#new-user-modal #modal-input .other-label {
+
+    font-size: 15px;
+    font-weight: 600;
+    color: #999;
+}
+
+
+#new-user-modal #modal-input #save-button{
+    background: var(--primary-color);
+    border: 0;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px;
+    margin-top:30px;
+    padding: 15px 25px;
+}
+
+#new-user-modal #modal-input #save-button:hover{
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.07), 0 6px 20px 0 rgba(0, 0, 0, 0.07);
+    transition: 0.5s ease-in-out;
 }
 
 #new-user-modal form .input-field input:focus + label,
@@ -295,6 +328,11 @@ body, html {
     color: var(--primary-color);
 }
 
+#new-user-modal form .input-field #date-modal::placeholder {
+    font-size: 12px;
+    font-weight: 700;
+    color: #999;
+}
 
 /* SEARCH BAR */
 .search-bar {

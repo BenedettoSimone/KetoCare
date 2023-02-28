@@ -46,7 +46,7 @@
                                            accept="image/jpeg, image/png, image/jpg" style="visibility:hidden;">
                                     <h5 id="filename"></h5>
                                 </div>
-                                <div>
+                                <div id="modal-input">
 
                                     <div class="input-field">
                                         <input type="text" id="name" name="name" autocomplete="off" required>
@@ -68,17 +68,16 @@
 
 
                                     <div class="input-field">
-                                        <input type="date" id="date-modal" name="date" required>
-                                        <label for="date">Birthdate</label>
+                                        <input type="date" id="date-modal" name="date" required placeholder="Birthdate">
                                     </div>
 
-                                    <label>Diabet Type:</label><br>
-                                    <input type="radio" name="diabet-type" value="1">
+                                    <label class="other-label">Diabet Type:</label>
+                                    <input type="radio" name="diabet-type" value="1" checked>
                                     <label>1</label>
                                     <input type="radio" name="diabet-type" value="2">
                                     <label>2</label><br>
 
-                                    <input type="submit" value="Confirm">
+                                    <input id="save-button" type="submit" value="Save">
                                 </div>
 
                             </div>
