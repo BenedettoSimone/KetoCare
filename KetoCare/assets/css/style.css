@@ -257,6 +257,10 @@ body, html {
 
 }
 
+#new-user-modal form .input-field #cf{
+    text-transform: uppercase;
+}
+
 #new-user-modal form .input-field input {
     display: block;
     width: 300px;

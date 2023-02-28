@@ -176,11 +176,11 @@ const modal = document.getElementById("new-user-modal");
         event.preventDefault(); // Avoid reloading
 
         const image = document.getElementById("image-input").files[0];
-        // Capitalize
-        const name = document.getElementById("name").value.replace(/\b\w/g, l => l.toUpperCase());
-        const surname = document.getElementById("surname").value.replace(/\b\w/g, l => l.toUpperCase());
+        // LowerCase and Capitalize
+        const name = document.getElementById("name").value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+        const surname = document.getElementById("surname").value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
 
-        // Uppercase
+        // UpperCase
         const cf = document.getElementById("cf").value.toUpperCase();
         const date = document.getElementById("date-modal").value;
         const diabetType = document.querySelector("#new-user-modal input[name='diabet-type']:checked").value;
