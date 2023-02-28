@@ -41,10 +41,10 @@
 
                                     </div>
 
-                                    <label for="image-input">Profile image</label><br>
+                                    <label for="image-input">Select profile image</label>
                                     <input type="file" id="image-input" name="image"
-                                           accept="image/jpeg, image/png, image/jpg"><br>
-
+                                           accept="image/jpeg, image/png, image/jpg" style="visibility:hidden;">
+                                    <h5 id="filename"></h5>
                                 </div>
                                 <div>
 
@@ -77,12 +77,14 @@
                                     <label>1</label>
                                     <input type="radio" name="diabet-type" value="2">
                                     <label>2</label><br>
+
+                                    <input type="submit" value="Confirm">
                                 </div>
 
                             </div>
 
 
-                            <input type="submit" value="Confirm">
+
                         </form>
                     </div>
                 </div>
@@ -307,7 +309,13 @@
      * @type {Element}
      */
     const image_input = document.querySelector("#image-input");
+    const filename_title = document.querySelector("#filename");
+
     image_input.addEventListener("change", function () {
+
+        filename = this.files[0].name;
+        filename_title.innerHTML = filename
+
         const reader = new FileReader();
         reader.addEventListener("load", () => {
             const uploaded_image = reader.result;
@@ -315,6 +323,7 @@
         });
         reader.readAsDataURL(this.files[0]);
     });
+
 </script>
 </body>
 </html>

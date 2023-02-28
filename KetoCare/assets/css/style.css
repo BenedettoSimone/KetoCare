@@ -162,6 +162,7 @@ body, html {
     gap: 70px;
     justify-content: center;
     align-items: center;
+    margin-top:40px;
 }
 
 .modal-content #form-fields #modal-image {
@@ -177,6 +178,7 @@ body, html {
     border-radius: 50%;
     background-size: cover;
     background-position: center;
+    border: 1px solid var(--secondary-text);
 }
 
 
@@ -213,6 +215,40 @@ body, html {
 
 
  */
+
+#new-user-modal form #modal-image label{
+    height: 50px;
+    background: var(--background-content);
+    border: 0;
+    border-radius: 15px;
+    cursor: pointer;
+    color: var(--primary-text);
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    border: 1px solid var(--secondary-text);
+    margin-top: 25px;
+    font-size: 12px;
+}
+
+#new-user-modal form #modal-image label:hover{
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.07), 0 6px 20px 0 rgba(0, 0, 0, 0.07);
+    transition: 0.5s ease-in-out;
+}
+
+
+#new-user-modal form #modal-image #filename{
+    font-weight: 400;
+    font-size: 12px;
+    margin-top:-11px;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+
 
 #new-user-modal form .input-field {
     position: relative;
