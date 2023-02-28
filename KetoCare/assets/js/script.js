@@ -50,7 +50,13 @@ function create_cards() {
         leftCard.classList.add("left-card");
 
         const img = document.createElement("img");
-        img.src = cardData.image_url;
+
+        if (cardData.image_url != undefined) {
+            img.src = cardData.image_url;
+        } else {
+            img.src = "./assets/img/patient.png";
+        }
+
         leftCard.appendChild(img);
 
         const rightCard = document.createElement("div");
@@ -170,14 +176,21 @@ const modal = document.getElementById("new-user-modal");
         event.preventDefault(); // Avoid reloading
 
         const image = document.getElementById("image-input").files[0];
-        const name = document.getElementById("name").value;
-        const surname = document.getElementById("surname").value;
-        const cf = document.getElementById("cf").value;
+        // Capitalize
+        const name = document.getElementById("name").value.replace(/\b\w/g, l => l.toUpperCase());
+        const surname = document.getElementById("surname").value.replace(/\b\w/g, l => l.toUpperCase());
+
+        // Uppercase
+        const cf = document.getElementById("cf").value.toUpperCase();
         const date = document.getElementById("date-modal").value;
         const diabetType = document.querySelector("#new-user-modal input[name='diabet-type']:checked").value;
 
         const formData = new FormData();
-        formData.append("image", image);
+
+        if(image != null){
+            formData.append("image", image);
+        }
+
         formData.append("name", name);
         formData.append("surname", surname);
         formData.append("cf", cf);

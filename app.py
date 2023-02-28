@@ -21,14 +21,15 @@ def get_all_patients():
 
     # update items with URL for image file
     for item in items:
-        try:
-            # generate URL for image file
-            url = s3_client.generate_presigned_url('get_object',
-                                                   Params={'Bucket': 'patientsimages', 'Key': item['image_file']},
-                                                   ExpiresIn=3600)
-            item['image_url'] = url
-        except ClientError as e:
-            logging.error(e)
+        if 'image_file' in item:
+            try:
+                # generate URL for image file
+                url = s3_client.generate_presigned_url('get_object',
+                                                       Params={'Bucket': 'patientsimages', 'Key': item['image_file']},
+                                                       ExpiresIn=3600)
+                item['image_url'] = url
+            except ClientError as e:
+                logging.error(e)
 
     print(items)
 
@@ -93,40 +94,54 @@ def get_measurements():
 @app.route('/savePatient', methods=['POST'])
 @cross_origin()
 def save_patient():
-    image = request.files['image']
+    image = request.files.get('image')
+
     name = request.form['name']
     surname = request.form['surname']
     cf = request.form['cf']
     date = request.form['date']
     diabet_type = request.form['diabetType']
 
-    # Save the image file to a temporary directory
-    tmp_dir = 'tmp/'
-    if not os.path.exists(tmp_dir):
-        os.makedirs(tmp_dir)
-    tmp_filename = os.path.join(tmp_dir, f"{cf}.jpg")
-    image.save(tmp_filename)
+    print(image)
+    if image is not None:
+        # Save the image file to a temporary directory
+        tmp_dir = 'tmp/'
+        if not os.path.exists(tmp_dir):
+            os.makedirs(tmp_dir)
+        tmp_filename = os.path.join(tmp_dir, f"{cf}.jpg")
+        image.save(tmp_filename)
 
-    try:
-        # upload the image in "patientsimages" bucket with another name (fiscal_code.jpg)
-        result = s3_client.upload_file(tmp_filename, "patientsimages", cf + ".jpg")
-    except ClientError as e:
-        logging.error(e)
 
-    # Remove the temporary file from the server
-    os.remove(tmp_filename)
+        try:
+            # upload the image in "patientsimages" bucket with another name (fiscal_code.jpg)
+            result = s3_client.upload_file(tmp_filename, "patientsimages", cf + ".jpg")
+        except ClientError as e:
+            logging.error(e)
+
+        # Remove the temporary file from the server
+        os.remove(tmp_filename)
 
     patients_table = dynamodb.Table('Patients')
 
     # Insert patient data into DynamoDB
-    item = {
-        'fiscal_code': cf,
-        'name': name,
-        'surname': surname,
-        'birthdate': date,
-        'diabet_type': diabet_type,
-        'image_file': cf + ".jpg"
-    }
+    if image is not None:
+        item = {
+            'fiscal_code': cf,
+            'name': name,
+            'surname': surname,
+            'birthdate': date,
+            'diabet_type': diabet_type,
+            'image_file': cf + ".jpg"
+        }
+    else:
+        item = {
+            'fiscal_code': cf,
+            'name': name,
+            'surname': surname,
+            'birthdate': date,
+            'diabet_type': diabet_type
+        }
+
     response = patients_table.put_item(Item=item)
 
     print("Stored item", item)
