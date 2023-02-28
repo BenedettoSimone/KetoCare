@@ -151,11 +151,38 @@ body, html {
     border: 1px solid #888;
     width: 80%;
     height: 80%;
+    position: relative;
+    border-radius:20px;
+
 }
+
+.modal-content #form-fields {
+    display: flex;
+    flex-direction: row;
+    gap:70px;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content #form-fields #modal-image{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-content #form-fields #modal-image .place-image{
+    height: 300px;
+    width: 300px;
+    background: red;
+    border-radius: 50%;
+}
+
 
 .close {
     color: #aaa;
-    float: right;
+    position: absolute;
+    top:20px;
+    right: 20px;
     font-size: 28px;
     font-weight: bold;
 }

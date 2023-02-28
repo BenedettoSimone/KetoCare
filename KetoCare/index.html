@@ -32,28 +32,39 @@
                 <!--MODAL-->
                 <div id="new-user-modal" class="modal">
                     <div class="modal-content">
+                        <h1>New patient</h1>
                         <span class="close"><i class='bx bx-x'></i></span>
                         <form>
-                            <label for="image">Profile image:</label>
-                            <input type="file" id="image" name="image"><br>
+                            <div id="form-fields">
+                                <div id="modal-image">
+                                    <div class="place-image">
 
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" name="name"><br>
+                                    </div>
+                                    <label for="image">Profile image</label><br>
+                                    <input type="file" id="image" name="image"><br>
+                                </div>
+                                <div>
+                                    <label for="name">Name:</label><br>
+                                    <input type="text" id="name" name="name"><br>
 
-                            <label for="surname">Surnname:</label>
-                            <input type="text" id="surname" name="surname"><br>
+                                    <label for="surname">Surnname:</label><br>
+                                    <input type="text" id="surname" name="surname"><br>
 
-                            <label for="cf">Fiscal code:</label>
-                            <input type="text" id="cf" name="cf"><br>
+                                    <label for="cf">Fiscal code:</label><br>
+                                    <input type="text" id="cf" name="cf"><br>
 
-                            <label for="date">Date of birth:</label>
-                            <input type="date" id="date-modal" name="date"><br>
+                                    <label for="date">Date of birth:</label><br>
+                                    <input type="date" id="date-modal" name="date"><br>
 
-                            <label>Diabet Type:</label><br>
-                            <input type="radio" name="diabet-type" value="1">
-                            <label>1</label><br>
-                            <input type="radio" name="diabet-type" value="2">
-                            <label>2</label><br>
+                                    <label>Diabet Type:</label><br>
+                                    <input type="radio" name="diabet-type" value="1">
+                                    <label>1</label>
+                                    <input type="radio" name="diabet-type" value="2">
+                                    <label>2</label><br>
+                                </div>
+
+                            </div>
+
 
                             <input type="submit" value="Confirm">
                         </form>
@@ -262,14 +273,15 @@
 
     const modal = document.getElementById("new-user-modal");
     const btn = document.getElementById("new-user-button");
-    const span = document.querySelector("#new-user-modal .close");
+    const close_modal = document.querySelector("#new-user-modal .close");
 
     btn.onclick = function () {
         modal.style.display = "flex";
     }
 
-    span.onclick = function () {
+    close_modal.onclick = function () {
         modal.style.display = "none";
+        form.reset();
     }
 
 
@@ -278,17 +290,40 @@
     form.addEventListener("submit", function (event) {
         event.preventDefault(); // Avoid reloading
 
-        const formData = new FormData(form);
+        const image = document.getElementById("image").files[0];
+        const name = document.getElementById("name").value;
+        const surname = document.getElementById("surname").value;
+        const cf = document.getElementById("cf").value;
+        const date = document.getElementById("date-modal").value;
+        const diabetType = document.querySelector("#new-user-modal input[name='diabet-type']:checked").value;
 
-        const jsonData = {
-            name: formData.get('name'),
-            surname: formData.get('surname'),
-            cf: formData.get('cf'),
-            date: formData.get('date-modal'),
-            diabetType: formData.get('diabet-type')
-        };
+        const formData = new FormData();
+        formData.append("image", image);
+        formData.append("name", name);
+        formData.append("surname", surname);
+        formData.append("cf", cf);
+        formData.append("date", date);
+        formData.append("diabetType", diabetType);
 
-        console.log(jsonData);
+        fetch('http://localhost:5000/savePatient', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error: status code ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                form.reset();
+                modal.style.display = "none";
+                console.log("Upload done!");
+            })
+            .catch(error => {
+                console.log(`Error: ${error.message}`);
+            });
 
         const modal = document.getElementById("new-user-modal");
         form.reset();
