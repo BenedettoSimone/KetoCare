@@ -169,7 +169,7 @@ const modal = document.getElementById("new-user-modal");
     form.addEventListener("submit", function (event) {
         event.preventDefault(); // Avoid reloading
 
-        const image = document.getElementById("image").files[0];
+        const image = document.getElementById("image-input").files[0];
         const name = document.getElementById("name").value;
         const surname = document.getElementById("surname").value;
         const cf = document.getElementById("cf").value;
@@ -197,6 +197,7 @@ const modal = document.getElementById("new-user-modal");
             })
             .then(data => {
                 form.reset();
+                document.querySelector("#place-image").style.backgroundImage = `url(../img/patient.png)`;
                 modal.style.display = "none";
                 console.log("Upload done!");
             })

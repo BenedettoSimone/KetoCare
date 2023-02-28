@@ -152,36 +152,38 @@ body, html {
     width: 80%;
     height: 80%;
     position: relative;
-    border-radius:20px;
+    border-radius: 20px;
 
 }
 
 .modal-content #form-fields {
     display: flex;
     flex-direction: row;
-    gap:70px;
+    gap: 70px;
     justify-content: center;
     align-items: center;
 }
 
-.modal-content #form-fields #modal-image{
+.modal-content #form-fields #modal-image {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.modal-content #form-fields #modal-image .place-image{
+.modal-content #form-fields #modal-image #place-image {
     height: 300px;
     width: 300px;
-    background: red;
+    background: url("../img/patient.png");
     border-radius: 50%;
+    background-size: cover;
+    background-position: center;
 }
 
 
 .close {
     color: #aaa;
     position: absolute;
-    top:20px;
+    top: 20px;
     right: 20px;
     font-size: 28px;
     font-weight: bold;
@@ -192,6 +194,69 @@ body, html {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* input field style */
+
+/*
+#new-user-modal form  .input-field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: var(--background-content);
+    border-radius: 14px;
+    height: 50px;
+    border: 0.1rem solid var(--secondary-text);
+    column-gap: 12px;
+    padding-left: 10px;
+}
+
+
+ */
+
+#new-user-modal form .input-field {
+    position: relative;
+    margin-bottom: 15px;
+
+}
+
+#new-user-modal form .input-field input {
+    display: block;
+    width: 400px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid var(--secondary-text);
+    transition: all .3s ease;
+    padding: 0 15px;
+    font-size: 16px;
+}
+
+#new-user-modal form .input-field input:focus {
+    border-color: var(--primary-color);
+}
+
+#new-user-modal form .input-field label {
+    position: absolute;
+    cursor: text;
+    z-index: 2;
+    top: 13px;
+    left: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #fff;
+    padding: 0 10px;
+    color: #999;
+    transition: all .3s ease;
+}
+
+#new-user-modal form .input-field input:focus + label,
+#new-user-modal form .input-field input:valid + label {
+    font-size: 11px;
+    top: -5px;
+}
+
+#new-user-modal form .input-field input:focus + label {
+    color: var(--primary-color);
 }
 
 
@@ -305,7 +370,7 @@ body, html {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-size: contain;
+    object-fit: cover;
 }
 
 #left-content #list-container #cards-container .card .right-card h2,
@@ -593,6 +658,8 @@ body, html {
 .container .col-b .cell-5 #patient-info img {
     border-radius: 50%;
     width: 160px;
+    height: 160px;
+    object-fit: cover;
 }
 
 .container .col-b .cell-5 #patient-info h2 {

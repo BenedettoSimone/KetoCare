@@ -37,24 +37,40 @@
                         <form>
                             <div id="form-fields">
                                 <div id="modal-image">
-                                    <div class="place-image">
+                                    <div id="place-image">
 
                                     </div>
-                                    <label for="image">Profile image</label><br>
-                                    <input type="file" id="image" name="image"><br>
+
+                                    <label for="image-input">Profile image</label><br>
+                                    <input type="file" id="image-input" name="image"
+                                           accept="image/jpeg, image/png, image/jpg"><br>
+
                                 </div>
                                 <div>
-                                    <label for="name">Name:</label><br>
-                                    <input type="text" id="name" name="name"><br>
 
-                                    <label for="surname">Surnname:</label><br>
-                                    <input type="text" id="surname" name="surname"><br>
+                                    <div class="input-field">
+                                        <input type="text" id="name" name="name" autocomplete="off" required>
+                                        <label for="name">Name</label>
+                                    </div>
 
-                                    <label for="cf">Fiscal code:</label><br>
-                                    <input type="text" id="cf" name="cf"><br>
 
-                                    <label for="date">Date of birth:</label><br>
-                                    <input type="date" id="date-modal" name="date"><br>
+                                    <div class="input-field">
+                                        <input type="text" id="surname" name="surname" autocomplete="off" required>
+                                        <label for="surname">Surname</label>
+
+                                    </div>
+
+
+                                    <div class="input-field">
+                                        <input type="text" id="cf" name="cf" autocomplete="off" required>
+                                        <label for="cf">Fiscal code</label>
+                                    </div>
+
+
+                                    <div class="input-field">
+                                        <input type="date" id="date-modal" name="date" required>
+                                        <label for="date">Birthdate</label>
+                                    </div>
 
                                     <label>Diabet Type:</label><br>
                                     <input type="radio" name="diabet-type" value="1">
@@ -281,6 +297,23 @@
     flatpickr(input_user, {
         dateFormat: 'd/m/Y',
         maxDate: 'today'
+    });
+</script>
+
+
+<script>
+    /**
+     * Upload image in form modal
+     * @type {Element}
+     */
+    const image_input = document.querySelector("#image-input");
+    image_input.addEventListener("change", function () {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            const uploaded_image = reader.result;
+            document.querySelector("#place-image").style.backgroundImage = `url(${uploaded_image})`;
+        });
+        reader.readAsDataURL(this.files[0]);
     });
 </script>
 </body>
