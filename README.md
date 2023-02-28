@@ -42,7 +42,8 @@ To the doctor will be provided a web application offering the following function
 1. Display of patient list and information such as age and type of diabetes;
 2. Average display for the current and previous day;
 3. Display of measurements taken on the current and previous day;
-4. Display of average and measurement history.
+4. Display of average and measurement history;
+5. Insertion of a new patient.
 
 <p align="center"><img src="./images/dashboard.png"/></p>
 
@@ -63,7 +64,8 @@ The APIs offer the possibility of:
    The image name is used to retrieve the patient image contained in the S3 "patientsimages" bucket.
     
 2. obtain the average of a given patient on a given date;
-3. obtain the measurements of a specific patient on a specific date.
+3. obtain the measurements of a specific patient on a specific date;
+4. save a new patient.
 
 ## Architecture
 <p align="center"><img src="./images/architecture.jpg"/></p>

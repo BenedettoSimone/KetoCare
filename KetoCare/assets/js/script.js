@@ -148,6 +148,68 @@ searchInput.addEventListener("input", () => {
 });
 
 
+/**
+ * Modal to add new user
+ */
+const modal = document.getElementById("new-user-modal");
+    const btn = document.getElementById("new-user-button");
+    const close_modal = document.querySelector("#new-user-modal .close");
+
+    btn.onclick = function () {
+        modal.style.display = "flex";
+    }
+
+    close_modal.onclick = function () {
+        modal.style.display = "none";
+        form.reset();
+    }
+
+    const form = document.querySelector("#new-user-modal form");
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Avoid reloading
+
+        const image = document.getElementById("image").files[0];
+        const name = document.getElementById("name").value;
+        const surname = document.getElementById("surname").value;
+        const cf = document.getElementById("cf").value;
+        const date = document.getElementById("date-modal").value;
+        const diabetType = document.querySelector("#new-user-modal input[name='diabet-type']:checked").value;
+
+        const formData = new FormData();
+        formData.append("image", image);
+        formData.append("name", name);
+        formData.append("surname", surname);
+        formData.append("cf", cf);
+        formData.append("date", date);
+        formData.append("diabetType", diabetType);
+
+        fetch('http://localhost:5000/savePatient', {
+            method: 'POST',
+            mode: 'cors',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error: status code ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                form.reset();
+                modal.style.display = "none";
+                console.log("Upload done!");
+            })
+            .catch(error => {
+                console.log(`Error: ${error.message}`);
+            });
+
+        const modal = document.getElementById("new-user-modal");
+        form.reset();
+        modal.style.display = "none";
+    });
+
+
 /* ================== END PATIENT LIST SECTION ================== */
 
 
