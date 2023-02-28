@@ -744,6 +744,9 @@ body, html {
     text-transform: capitalize;
     margin-bottom: 0;
     color: var(--primary-text);
+    text-align: center;
+    width: 80%;
+
 }
 
 .container .col-b .cell-5 #patient-info h4 {

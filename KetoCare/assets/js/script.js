@@ -479,7 +479,12 @@ function displayPatientInfo(fiscalCode) {
     const birthdayCard = patientInfoDiv.querySelector("#birthday");
     const diabetTypeCard = patientInfoDiv.querySelector("#diabet_type");
 
-    img.src = patient.image_url;
+    if (patient.image_url !== undefined){
+         img.src = patient.image_url;
+    }else{
+        img.src = './assets/img/patient.png';
+    }
+
     h2.textContent = patient.name + " " + patient.surname;
     h4.textContent = patient.fiscal_code;
 
