@@ -95,14 +95,14 @@ The APIs offer the possibility of:
 5. [Flask](https://flask.palletsprojects.com/en/2.2.x/installation/#python-version);
 6. [flask-cors](https://flask-cors.readthedocs.io/en/latest/);
 
-To install the prerequisites, you can follow the instructions in the file `Installation.pdf`
+To install the prerequisites on MacOS, you can follow the instructions in the file `Installation.pdf`
 
 
 ## Setting up the environment
 ### 1. Clone the repository
 
 ```
-git clone https://github.com/BenedettoSimone/KetoCare-Motion.git
+git clone https://github.com/BenedettoSimone/KetoCare.git
 ```
 
 ### 2. Launch [LocalStack](https://localstack.cloud/)
@@ -133,7 +133,7 @@ aws sqs list-queues --endpoint-url=http://localhost:4566
 
 ### 4. Create the DynamoDB tables and populate them
 	
-1) Use the Python code to create the DynamoDB tables
+1) Use the Python code to create the DynamoDB tables.
 	
 ```shell
 cd KetoCare
@@ -147,13 +147,13 @@ python3 settings/createAveragesTable.py
 ```
 python3 settings/createPatientsTable.py
 ```
-2) Check that the tables have been correctly created
+2) Check that the tables have been correctly created.
 
 ```
 aws dynamodb list-tables --endpoint-url=http://localhost:4566
 ```
 	
-3) Populate tables with initial data. The `loadData` script loads the measurements and the average of the two days preceding the current day. The `loadPatients` script loads the data of five patients. In addition, the patient's profile photo will be loaded into the S3 bucket.
+3) Populate tables with initial data. The `loadData` script loads the measurements and the averages of the two days preceding the current day. The `loadPatients` script loads the data of five patients. In addition, the patient's profile photo will be loaded into the S3 bucket.
 	
 ```
 python3 settings/loadData.py
@@ -184,24 +184,24 @@ and then going to `http://localhost:8001`.
 
 ### 5. Set up the Lambda function triggered by SQS messages that store the measurements
 
-1) Create the role
+1) Create the role.
 ```
 aws iam create-role --role-name lambdarole --assume-role-policy-document file://settings/role_policy.json --query 'Role.Arn' --endpoint-url=http://localhost:4566
 ```
-2) Attach the policy
+2) Attach the policy.
 ```
 aws iam put-role-policy --role-name lambdarole --policy-name lambdapolicy --policy-document file://settings/policy.json --endpoint-url=http://localhost:4566
 ```
-3) Create the zip file
+3) Create the zip file.
 ```
 zip saveMeasurements.zip settings/saveMeasurements.py
 ```
-4) Create the function
+4) Create the function.
 ```
 aws lambda create-function --function-name saveMeasurements --zip-file fileb://saveMeasurements.zip --handler settings/saveMeasurements.lambda_handler --runtime python3.6 --role arn:aws:iam::000000000000:role/lambdarole --endpoint-url=http://localhost:4566
 ```
 
-5) Create the event source mapping between the function and the queue
+5) Create the event source mapping between the function and the queue.
 
 ```
 aws lambda create-event-source-mapping --function-name saveMeasurements --batch-size 5 --maximum-batching-window-in-seconds 60 --event-source-arn arn:aws:sqs:us-east-2:000000000000:Measurements --endpoint-url=http://localhost:4566
@@ -223,9 +223,9 @@ aws lambda create-event-source-mapping --function-name saveMeasurements --batch-
 	
 	7. Click *Create action*, *Continue*, and *Finish*.
 
-2) Modify the variable `key` within the `emailWarning.py` function with your IFTT applet key. The key can be find clicking on the icon of the webhook and clicking on *Documentation*.
+2) Modify the variable `key` within the `settings/emailWarning.py` function with your IFTT applet key. The key can be find clicking on the icon of the webhook and clicking on *Documentation*.
 
-3) Zip the Python file and create the Lambda function
+3) Zip the Python file and create the Lambda function.
 ```
 zip emailWarning.zip settings/emailWarning.py
 ```
@@ -233,30 +233,45 @@ zip emailWarning.zip settings/emailWarning.py
 aws lambda create-function --function-name emailWarning --zip-file fileb://emailWarning.zip --handler settings/emailWarning.lambda_handler --runtime python3.6 --role arn:aws:iam::000000000000:role/lambdarole --endpoint-url=http://localhost:4566
 ```
 
-4) Create the event source mapping between the function and the queue
+4) Create the event source mapping between the function and the queue.
 
 ```
 aws lambda create-event-source-mapping --function-name emailWarning --batch-size 5 --maximum-batching-window-in-seconds 60 --event-source-arn arn:aws:sqs:us-east-2:000000000000:Warning --endpoint-url=http://localhost:4566
 ```
 
-5) Test the mapping sending a message on the error queue and check that an email is sent
+5) Test the mapping sending a message on the error queue and check that an email is sent.
 
 ```
 aws sqs send-message --queue-url http://localhost:4566/000000000000/Warning --message-body '{"fiscal_code": "FRRLNZ50M24F839C","measure_date": "2023-02-27 18:57:03", "measured_value": "7.02"}' --endpoint-url=http://localhost:4566
 ```
 
 ### 7. Create the time-triggered Lambda function to compute the average of each patient
-1) Create the zip file
+1) Create the zip file.
 ```
 zip computeAvg.zip settings/computeAvg.py
 ```
-2) Create the function and save the Arn (it should be `arn:aws:lambda:us-east-2:000000000000:function:computeAvg`)
+2) Create the function and save the Arn (it should be `arn:aws:lambda:us-east-2:000000000000:function:computeAvg`).
 ```
 aws lambda create-function --function-name computeAvg --zip-file fileb://computeAvg.zip --handler settings/computeAvg.lambda_handler --runtime python3.6 --role arn:aws:iam::000000000000:role/lambdarole --endpoint-url=http://localhost:4566
 ```
 
-
-
+### 8.  Set up a CloudWatch rule to trigger the average function every day at 11 PM
+1) Create the rule and save the Arn (it should be `arn:aws:events:us-east-2:000000000000:rule/calculateAvg`).
+```
+aws events put-rule --name calculateAvg --schedule-expression 'cron(0 23 * * ? *)' --endpoint-url=http://localhost:4566
+```
+2) Check that the rule has been correctly created with the frequency wanted.
+```
+aws events list-rules --endpoint-url=http://localhost:4566
+```
+3) Add permission to the rule created.
+```
+aws lambda add-permission --function-name computeAvg --statement-id calculateAvg --action 'lambda:InvokeFunction' --principal events.amazonaws.com --source-arn arn:aws:events:us-east-2:000000000000:rule/computeAvg --endpoint-url=http://localhost:4566
+```
+4) Add the lambda function to the rule using the JSON file containing the Lambda function Arn.
+```
+aws events put-targets --rule calculateAvg --targets file://settings/targets.json --endpoint-url=http://localhost:4566
+```
 
 ## Use it
 1. First, run the server.
@@ -266,13 +281,12 @@ python3 app.py
 ```
 
 2. In your browser, open the `KetoCare/index.html` file.
-3. Simulate the sensors, and check all the daily measurements on the dashboard.
+3. Simulate the sensors and check all the daily measurements on the dashboard.
 
 ```bash
 python3 sensors.py
 ```
-
-4. Invoke the lambda function to compute the daily average and see the result on the dashboard.
+4. Wait that the average Lambda function compute the average or invoke it manually. Now you can see the result on the dashboard.
 ```bash
 aws lambda invoke --function-name computeAvg out --endpoint-url=http://localhost:4566
 ```
