@@ -6,7 +6,7 @@ This project aims to provide support to doctor to monitor diabetes and prevent d
 
 Diabetes is a chronic disease that requires continuous and accurate monitoring of blood sugar levels. A potentially dangerous complication of diabetes, called ketoacidosis, occurs when the organism begins to produce excess ketones leading to an increase of the acidity level in the blood.
 
-The project is based on an IoT Cloud architecture where each sensor (placed on each patient) collects information about blood pH and sends them on where they are processed through Serverless Computing and stored in a NoSQL database.
+The project is based on an IoT Cloud architecture where each sensor (placed on each patient) collects information about blood pH and sends them on Cloud where they are processed through Serverless Computing and stored in a NoSQL database.
 
 The sensors' functionality is inspired by the method described in the paper [Bioresorbable Nanostructured Chemical Sensor for Monitoring of pH Level In Vivo](https://onlinelibrary.wiley.com/doi/pdf/10.1002/advs.202202062). The sensor takes pH measurements from `4.0 to 7.45`.
 
