@@ -35,8 +35,12 @@ At the end of the day, a time triggered Serverless function computes the average
 - blood pH values.
 <p align="center"><img src="./images/averages_table.png"/></p>
 
+> This feature is important for comparing the daily average with the averages of previous days to check the effectiveness of medical treatment.
+ 
 Each message sent on the "Warning" queue triggers a Serverless function that sends an email to the doctor notifying him of the warning.
 <p align="center"><img src="./images/email.png"/></p>
+
+> This functionality is important for the rapid administration of large quantities of intravenous fluids in combination with electrolytes, such as sodium, potassium, chlorine and sometimes phosphates.
 
 To the doctor will be provided a web application offering the following functionalities:
 1. Display of patient list and information such as age and type of diabetes;
@@ -268,3 +272,6 @@ python3 sensors.py
 ```bash
 aws lambda invoke --function-name computeAvg out --endpoint-url=http://localhost:4566
 ```
+
+## Developed with :heart: by
+[Simone Benedetto](https://github.com/BenedettoSimone)<br>
