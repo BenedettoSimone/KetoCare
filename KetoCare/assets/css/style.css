@@ -120,7 +120,6 @@ body, html {
     font-size: 14px;
     align-items: center;
     padding: 12px;
-
 }
 
 #left-content #list-container #title-container #new-user-button i {
@@ -161,7 +160,7 @@ body, html {
     gap: 70px;
     justify-content: center;
     align-items: center;
-    margin-top:40px;
+    margin-top: 40px;
 }
 
 .modal-content #form-fields #modal-image {
@@ -179,7 +178,6 @@ body, html {
     background-position: center;
     border: 1px solid var(--secondary-text);
 }
-
 
 .close {
     color: #aaa;
@@ -212,13 +210,11 @@ body, html {
     padding-left: 10px;
 }
 
-
  */
 
-#new-user-modal form #modal-image label{
+#new-user-modal form #modal-image label {
     height: 50px;
     background: var(--background-content);
-    border: 0;
     border-radius: 15px;
     cursor: pointer;
     color: var(--primary-text);
@@ -230,33 +226,28 @@ body, html {
     font-size: 12px;
 }
 
-#new-user-modal form #modal-image label:hover{
+#new-user-modal form #modal-image label:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.07), 0 6px 20px 0 rgba(0, 0, 0, 0.07);
     transition: 0.5s ease-in-out;
 }
 
-
-#new-user-modal form #modal-image #filename{
+#new-user-modal form #modal-image #filename {
     font-weight: 400;
     font-size: 12px;
-    margin-top:-11px;
+    margin-top: -11px;
     width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
-
 }
-
-
 
 #new-user-modal form .input-field {
     position: relative;
     margin-bottom: 15px;
-
 }
 
-#new-user-modal form .input-field #cf{
+#new-user-modal form .input-field #cf {
     text-transform: uppercase;
 }
 
@@ -291,19 +282,19 @@ body, html {
     color: #999;
     transition: all .3s ease;
 }
-#new-user-modal #modal-input{
-   text-align: center;
+
+#new-user-modal #modal-input {
+    text-align: center;
 }
 
 #new-user-modal #modal-input .other-label {
-
     font-size: 15px;
     font-weight: 600;
     color: #999;
 }
 
 
-#new-user-modal #modal-input #save-button{
+#new-user-modal #modal-input #save-button {
     background: var(--primary-color);
     border: 0;
     border-radius: 12px;
@@ -311,13 +302,12 @@ body, html {
     color: #ffffff;
     font-weight: 600;
     font-size: 14px;
-    padding: 12px;
-    margin-top:30px;
+    margin-top: 30px;
     padding: 15px 25px;
     width: 300px;
 }
 
-#new-user-modal #modal-input #save-button:hover{
+#new-user-modal #modal-input #save-button:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.07), 0 6px 20px 0 rgba(0, 0, 0, 0.07);
     transition: 0.5s ease-in-out;
 }
@@ -747,7 +737,6 @@ body, html {
     text-align: center;
     width: 80%;
     word-break: break-all;
-
 }
 
 .container .col-b .cell-5 #patient-info h4 {
@@ -781,7 +770,6 @@ body, html {
     padding: 10px;
 }
 
-
 .container .col-b .cell-5 #patient-info .info #birthday {
     background: #9ecdfa;
     color: var(--primary-color);
@@ -792,7 +780,6 @@ body, html {
     background: #67b2ff;
     color: #ffffff;
 }
-
 
 .container .col-b .cell-5 #patient-info .info #diabet_type {
     background: #97FCFF;
@@ -805,21 +792,16 @@ body, html {
     color: #ffffff;
 }
 
-
 /* COL-A CELL3*/
-
 .container .col-a .cell-3 #chart-container {
-
     background-color: #ffffff;
     border-radius: 20px;
     box-shadow: var(--box-shadow);
-
 }
 
 /* ==== END RIGHT CONTENT ==== */
 
 @media screen and (max-width: 1327px) {
-
     .container .col-a .card .card-title {
         color: #ffffff;
         display: flex;
@@ -828,7 +810,6 @@ body, html {
 }
 
 @media screen and (max-width: 1194px) {
-
     #right-content #bg-right .container {
         grid-template-columns: 100%;
         padding-right: 0;
@@ -852,12 +833,12 @@ body, html {
         overflow-y: scroll;
     }
 
-        .modal-content #form-fields {
+    .modal-content #form-fields {
         display: flex;
         flex-direction: column;
         gap: 8px;
         align-items: center;
-        margin-top:40px;
+        margin-top: 40px;
     }
 
 }
