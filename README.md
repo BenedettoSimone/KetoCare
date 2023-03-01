@@ -91,7 +91,11 @@ The APIs offer the possibility of:
 1. [Docker](https://docs.docker.com/get-docker/);
 2. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html);
 3. [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html);
-4. (Optional) nodejs for database visualization.
+4. (Optional) [Node.js](https://nodejs.org/en/) for database visualization;
+5. [Flask](https://flask.palletsprojects.com/en/2.2.x/installation/#python-version);
+6. [flask-cors](https://flask-cors.readthedocs.io/en/latest/);
+
+To install the prerequisites, you can follow the instructions in the file `Installation.pdf`
 
 
 ## Setting up the environment
