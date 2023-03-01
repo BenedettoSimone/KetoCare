@@ -51,7 +51,7 @@ function create_cards() {
 
         const img = document.createElement("img");
 
-        if (cardData.image_url != undefined) {
+        if (cardData.image_url !== undefined) {
             img.src = cardData.image_url;
         } else {
             img.src = "./assets/img/patient.png";
