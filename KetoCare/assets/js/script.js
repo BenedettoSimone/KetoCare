@@ -101,8 +101,14 @@ function create_cards() {
             //set average and measurements data
             get_measurements(card.id, "")
 
+            // reset calendar
             const input = document.getElementById('date');
             input.value = '';
+
+            //close sidebar
+            content.classList.remove('show-left-content');
+            content.classList.add('hide-left-content');
+
         });
     });
 }
