@@ -746,6 +746,7 @@ body, html {
     color: var(--primary-text);
     text-align: center;
     width: 80%;
+    word-break: break-all;
 
 }
 
