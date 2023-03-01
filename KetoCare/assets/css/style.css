@@ -132,7 +132,7 @@ body, html {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 4;
     left: 0;
     top: 0;
     width: 100%;
@@ -142,7 +142,6 @@ body, html {
     background-color: rgba(0, 0, 0, 0.4);
     justify-content: center;
     align-items: center;
-
 }
 
 .modal-content {
@@ -150,10 +149,10 @@ body, html {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    height: 80%;
+    height: 600px;
     position: relative;
     border-radius: 20px;
-
+    max-width: 1124px;
 }
 
 .modal-content #form-fields {
@@ -315,6 +314,7 @@ body, html {
     padding: 12px;
     margin-top:30px;
     padding: 15px 25px;
+    width: 300px;
 }
 
 #new-user-modal #modal-input #save-button:hover{
@@ -834,6 +834,32 @@ body, html {
     }
 }
 
+@media screen and (max-width: 930px) {
+    .modal {
+        overflow: hidden;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+        overflow-y: scroll;
+    }
+
+        .modal-content #form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+        margin-top:40px;
+    }
+
+}
 
 /* Hide left content and create sidebar menu */
 @media screen and (max-width: 857px) {
