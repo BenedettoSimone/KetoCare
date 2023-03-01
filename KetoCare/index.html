@@ -293,29 +293,6 @@
         dateFormat: 'd/m/Y',
         maxDate: 'today'
     });
-</script>
-
-
-<script>
-    /**
-     * Upload image in form modal
-     * @type {Element}
-     */
-    const image_input = document.querySelector("#image-input");
-    const filename_title = document.querySelector("#filename");
-
-    image_input.addEventListener("change", function () {
-
-        filename = this.files[0].name;
-        filename_title.innerHTML = filename
-
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-            const uploaded_image = reader.result;
-            document.querySelector("#place-image").style.backgroundImage = `url(${uploaded_image})`;
-        });
-        reader.readAsDataURL(this.files[0]);
-    });
 
 </script>
 </body>

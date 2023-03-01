@@ -19,7 +19,7 @@ fetch('http://localhost:5000/patients', {
         return response.json();
     })
     .then(data => {
-        if(data.length > 0){
+        if (data.length > 0) {
             cardsData = data;
             document.querySelector("#cards-container h5").style.display = "none";
             document.querySelector("#left-content #list-container #cards-container").style.textAlign = "left";
@@ -158,71 +158,95 @@ searchInput.addEventListener("input", () => {
  * Modal to add new user
  */
 const modal = document.getElementById("new-user-modal");
-    const btn = document.getElementById("new-user-button");
-    const close_modal = document.querySelector("#new-user-modal .close");
+const btn = document.getElementById("new-user-button");
+const close_modal = document.querySelector("#new-user-modal .close");
 
-    btn.onclick = function () {
-        modal.style.display = "flex";
+btn.onclick = function () {
+    modal.style.display = "flex";
+}
+
+close_modal.onclick = function () {
+    modal.style.display = "none";
+    document.querySelector("#place-image").style.backgroundImage = `url(./assets/img/patient.png)`;
+    document.querySelector("#image-input").value = null;
+    document.querySelector("#filename").innerHTML = ""
+    form.reset();
+}
+
+const form = document.querySelector("#new-user-modal form");
+
+form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Avoid reloading
+
+    const image = document.getElementById("image-input").files[0];
+    // LowerCase and Capitalize
+    const name = document.getElementById("name").value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+    const surname = document.getElementById("surname").value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+
+    // UpperCase
+    const cf = document.getElementById("cf").value.toUpperCase();
+    const date = document.getElementById("date-modal").value;
+    const diabetType = document.querySelector("#new-user-modal input[name='diabet-type']:checked").value;
+
+    const formData = new FormData();
+
+    if (image != null) {
+        formData.append("image", image);
     }
 
-    close_modal.onclick = function () {
-        modal.style.display = "none";
-        form.reset();
-    }
+    formData.append("name", name);
+    formData.append("surname", surname);
+    formData.append("cf", cf);
+    formData.append("date", date);
+    formData.append("diabetType", diabetType);
 
-    const form = document.querySelector("#new-user-modal form");
-
-    form.addEventListener("submit", function (event) {
-        event.preventDefault(); // Avoid reloading
-
-        const image = document.getElementById("image-input").files[0];
-        // LowerCase and Capitalize
-        const name = document.getElementById("name").value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
-        const surname = document.getElementById("surname").value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
-
-        // UpperCase
-        const cf = document.getElementById("cf").value.toUpperCase();
-        const date = document.getElementById("date-modal").value;
-        const diabetType = document.querySelector("#new-user-modal input[name='diabet-type']:checked").value;
-
-        const formData = new FormData();
-
-        if(image != null){
-            formData.append("image", image);
-        }
-
-        formData.append("name", name);
-        formData.append("surname", surname);
-        formData.append("cf", cf);
-        formData.append("date", date);
-        formData.append("diabetType", diabetType);
-
-        fetch('http://localhost:5000/savePatient', {
-            method: 'POST',
-            mode: 'cors',
-            body: formData
+    fetch('http://localhost:5000/savePatient', {
+        method: 'POST',
+        mode: 'cors',
+        body: formData
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error: status code ${response.status}`);
+            }
+            return response.json();
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Error: status code ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                form.reset();
-                document.querySelector("#place-image").style.backgroundImage = `url(../img/patient.png)`;
-                modal.style.display = "none";
-                console.log("Upload done!");
-                location.reload()
-            })
-            .catch(error => {
-                console.log(`Error: ${error.message}`);
-            });
+        .then(data => {
+            form.reset();
+            document.querySelector("#place-image").style.backgroundImage = `url(./assets/img/patient.png)`;
+            modal.style.display = "none";
+            console.log("Upload done!");
+            location.reload()
+        })
+        .catch(error => {
+            console.log(`Error: ${error.message}`);
+        });
 
-        const modal = document.getElementById("new-user-modal");
-        form.reset();
-        modal.style.display = "none";
+    const modal = document.getElementById("new-user-modal");
+    form.reset();
+    modal.style.display = "none";
+});
+
+
+/**
+ * Upload image in form modal
+ * @type {Element}
+ */
+const image_input = document.querySelector("#image-input");
+const filename_title = document.querySelector("#filename");
+
+image_input.addEventListener("change", function () {
+
+    filename = this.files[0].name;
+    filename_title.innerHTML = filename
+
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+        const uploaded_image = reader.result;
+        document.querySelector("#place-image").style.backgroundImage = `url(${uploaded_image})`;
     });
+    reader.readAsDataURL(this.files[0]);
+});
 
 
 /* ================== END PATIENT LIST SECTION ================== */
@@ -246,8 +270,8 @@ openButton.addEventListener('click', function () {
 });
 
 closeButton.addEventListener('click', function () {
-        content.classList.remove('show-left-content');
-        content.classList.add('hide-left-content');
+    content.classList.remove('show-left-content');
+    content.classList.add('hide-left-content');
 });
 
 
@@ -286,7 +310,7 @@ function get_measurements(fiscal_code, requested_date) {
 
 
             //RIGHT CARD - Current
-            document.querySelector('.cell-2 .card-title span').innerHTML = '| '+ dates.currentDate;
+            document.querySelector('.cell-2 .card-title span').innerHTML = '| ' + dates.currentDate;
             // check if the average exist
             if (averages[1]) {
                 document.querySelector('.cell-2 .ph_average').innerHTML = averages[1].average_value;
@@ -308,10 +332,10 @@ function get_measurements(fiscal_code, requested_date) {
             let values_previous = [];
             let values_current = [];
 
-            for(let i = 0; i < measurements[0].length; i++){
+            for (let i = 0; i < measurements[0].length; i++) {
                 values_previous.push(parseFloat(measurements[0][i].measured_value));
             }
-            for(let i = 0; i < measurements[1].length; i++){
+            for (let i = 0; i < measurements[1].length; i++) {
                 values_current.push(parseFloat(measurements[1][i].measured_value));
             }
             updateChart(dates.previousDate, values_previous, dates.currentDate, values_current);
@@ -433,6 +457,7 @@ function updateChart(previousDate, previousData, currentDate, currentData) {
     }]);
 
 }
+
 /* ================== END MEASUREMENTS SECTION ================== */
 
 
@@ -479,9 +504,9 @@ function displayPatientInfo(fiscalCode) {
     const birthdayCard = patientInfoDiv.querySelector("#birthday");
     const diabetTypeCard = patientInfoDiv.querySelector("#diabet_type");
 
-    if (patient.image_url !== undefined){
-         img.src = patient.image_url;
-    }else{
+    if (patient.image_url !== undefined) {
+        img.src = patient.image_url;
+    } else {
         img.src = './assets/img/patient.png';
     }
 
