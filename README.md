@@ -248,3 +248,23 @@ aws lambda create-function --function-name computeAvg --zip-file fileb://compute
 ```
 
 
+
+
+## Use it
+1. First, run the server.
+
+```bash
+python3 app.py
+```
+
+2. In your browser, open the `KetoCare/index.html` file.
+3. Simulate the sensors, and check all the daily measurements on the dashboard.
+
+```bash
+python3 sensors.py
+```
+
+4. Invoke the lambda function to compute the daily average and see the result on the dashboard.
+```bash
+aws lambda invoke --function-name computeAvg out --endpoint-url=http://localhost:4566
+```
